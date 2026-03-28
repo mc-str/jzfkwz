@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>矩阵方块 - 管理后台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f3f4f6; margin: 0; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { margin-top: 0; }
+        .login-form { max-width: 400px; margin: 5rem auto; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        input, textarea { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem; }
+        button { background: #3b82f6; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; font-size: 1rem; }
+        button.danger { background: #ef4444; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f9fafb; }
+        .actions button { margin-right: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.875rem; }
+        .add-btn { margin-bottom: 1rem; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+        .modal.show { display: flex; }
+        .modal-content { background: white; border-radius: 1rem; padding: 2rem; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .close { cursor: pointer; font-size: 1.5rem; }
+        .switch-group { display: flex; align-items: center; gap: 1rem; margin: 1rem 0; }
+        .switch-group label { margin-bottom: 0; }
+        .success-msg, .error-msg { padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 1rem; display: none; }
+        .success-msg { background: #d1fae5; color: #065f46; }
+        .error-msg { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="login-panel" class="card login-form">
+        <h2>管理员登录</h2>
+        <div id="login-error" class="error-msg"></div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" id="admin-password" placeholder="请输入管理员密码">
+        </div>
+        <button onclick="login()">登录</button>
+    </div>
+
+    <div id="admin-panel" style="display: none;">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1>产品管理</h1>
+                <button onclick="showProductModal()"><i class="fas fa-plus"></i> 新增产品</button>
+                <button onclick="logout()" class="danger">退出登录</button>
+            </div>
+            <div id="message" class="success-msg"></div>
+            <div id="error-msg" class="error-msg"></div>
+            <table id="products-table">
+                <thead><tr><th>ID</th><th>名称</th><th>版本</th><th>大小</th><th>状态</th><th>操作</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="product-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title">新增产品</h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <form id="product-form">
+            <input type="hidden" id="product-id">
+            <div class="form-group"><label>名称 *</label><input type="text" id="product-name" required></div>
+            <div class="form-group"><label>描述</label><textarea id="product-desc" rows="3"></textarea></div>
+            <div class="form-group"><label>图片链接</label><input type="url" id="product-image" placeholder="https://..."></div>
+            <div class="form-group"><label>下载链接</label><input type="url" id="product-download" placeholder="https://..."></div>
+            <div class="form-group"><label>版本号</label><input type="text" id="product-version" placeholder="v1.0"></div>
+            <div class="form-group"><label>文件大小</label><input type="text" id="product-size" placeholder="1.23 MB"></div>
+            <div class="switch-group"><label>已发布</label><input type="checkbox" id="product-released" checked></div>
+            <button type="submit">保存</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let authToken = null;
+    async function login() {
+        const pwd = document.getElementById('admin-password').value;
+        if (!pwd) { showError('请输入密码'); return; }
+        authToken = pwd;
+        document.getElementById('login-panel').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        loadProducts();
+    }
+    function logout() { authToken = null; document.getElementById('login-panel').style.display = 'block'; document.getElementById('admin-panel').style.display = 'none'; }
+    async function loadProducts() {
+        try {
+            const res = await fetch('/api/products');
+            const products = await res.json();
+            const tbody = document.querySelector('#products-table tbody');
+            tbody.innerHTML = '';
+            products.forEach(p => {
+                const row = tbody.insertRow();
+                row.insertCell(0).innerText = p.id;
+                row.insertCell(1).innerText = p.name;
+                row.insertCell(2).innerText = p.version;
+                row.insertCell(3).innerText = p.size;
+                row.insertCell(4).innerText = p.isReleased ? '已发布' : '未发布';
+                const actions = row.insertCell(5);
+                actions.innerHTML = `<button onclick="editProduct('${p.id}')"><i class="fas fa-edit"></i> 编辑</button> <button class="danger" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i> 删除</button>`;
+            });
+        } catch (err) { showError('加载产品失败'); }
+    }
+    function showProductModal(productId = null) {
+        document.getElementById('product-form').reset();
+        document.getElementById('product-id').value = '';
+        document.getElementById('modal-title').innerText = '新增产品';
+        if (productId) {
+            fetch('/api/products').then(res => res.json()).then(products => {
+                const p = products.find(p => p.id === productId);
+                if (p) {
+                    document.getElementById('product-id').value = p.id;
+                    document.getElementById('product-name').value = p.name;
+                    document.getElementById('product-desc').value = p.desc;
+                    document.getElementById('product-image').value = p.imageUrl || '';
+                    document.getElementById('product-download').value = p.downloadUrl || '';
+                    document.getElementById('product-version').value = p.version;
+                    document.getElementById('product-size').value = p.size;
+                    document.getElementById('product-released').checked = p.isReleased;
+                    document.getElementById('modal-title').innerText = '编辑产品';
+                }
+            });
+        }
+        document.getElementById('product-modal').classList.add('show');
+    }
+    function closeModal() { document.getElementById('product-modal').classList.remove('show'); }
+    async function saveProduct(event) {
+        event.preventDefault();
+        const product = {
+            name: document.getElementById('product-name').value,
+            desc: document.getElementById('product-desc').value,
+            imageUrl: document.getElementById('product-image').value,
+            downloadUrl: document.getElementById('product-download').value,
+            version: document.getElementById('product-version').value,
+            size: document.getElementById('product-size').value,
+            isReleased: document.getElementById('product-released').checked
+        };
+        const id = document.getElementById('product-id').value;
+        let url = '/api/products';
+        let method = 'POST';
+        if (id) { url = `/api/products/${id}`; method = 'PUT'; }
+        try {
+            const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auth: authToken, product }) });
+            const result = await res.json();
+            if (res.ok) { showMessage('保存成功'); closeModal(); loadProducts(); } 
+            else showError(result.error || '保存失败');
+        } catch (err) { showError('网络错误'); }
+    }
+    async function deleteProduct(id) {
+        if (!confirm('确定删除？')) return;
+        try {
+            const res = await fetch(`/api/products/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auth: authToken }) });
+            if (res.ok) { showMessage('删除成功'); loadProducts(); } 
+            else { const err = await res.json(); showError(err.error || '删除失败'); }
+        } catch (err) { showError('网络错误'); }
+    }
+    function editProduct(id) { showProductModal(id); }
+    function showMessage(msg) { const d = document.getElementById('message'); d.innerText = msg; d.style.display = 'block'; setTimeout(() => d.style.display = 'none', 3000); }
+    function showError(msg) { const d = document.getElementById('error-msg'); d.innerText = msg; d.style.display = 'block'; setTimeout(() => d.style.display = 'none', 3000); }
+    document.getElementById('product-form').addEventListener('submit', saveProduct);
+</script>
+</body>
+</html>
