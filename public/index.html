@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>矩阵方块</title>
+    <title>矩阵方块官网</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 样式代码与之前相同，为节省篇幅，这里省略（可复用原样式） */
-        /* 由于样式过长，建议直接复制之前完整样式部分 */
-        /* 注意：请确保样式完整，否则页面会变形。为完整起见，本回答将保留全部样式。 */
+        /* 样式代码与之前完全相同，为节省篇幅此处省略，实际使用时应保留完整样式 */
+        /* 注意：以下省略样式，但实际部署时请保留之前完整的样式代码 */
         :root {
             --g1: #f9fafb;
             --g2: #f3f4f6;
@@ -303,7 +302,7 @@
         }
         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--g8); font-family: monospace; }
         .stat-label { font-size: 0.75rem; color: var(--g5); }
-        .global-badge { font-size: 0.7rem; background: var(--accent-light); color: white; border-radius: 20px; padding: 0.2rem 0.6rem; display: inline-block; margin-left: 6px; vertical-align: middle; }
+        /* 移除 .global-badge 样式，因为不再使用 */
         .icp-link {
             display: inline-flex;
             align-items: center;
@@ -465,8 +464,8 @@
 <body>
 <div class="container">
     <div class="nav">
-        <h1 id="site-title">加载中...</h1>
-        <p id="site-subtitle">加载中...</p>
+        <h1 id="site-title">矩阵方块</h1>
+        <p id="site-subtitle">解锁创意方块 · 掌握美好艺术</p>
     </div>
 
     <!-- 免责声明（静态，不管理） -->
@@ -505,9 +504,9 @@
                 <div class="runtime-display"><i class="fas fa-heartbeat"></i><span>已运行</span><span id="site-runtime">0 天 0 小时 0 分 0 秒</span></div>
             </div>
             <div class="footer-stats">
-                <div class="stat-box"><div class="stat-value" id="total-views">加载中...</div><div class="stat-label">总预览 <span class="global-badge">全球统一</span></div></div>
-                <div class="stat-box"><div class="stat-value" id="today-views">加载中...</div><div class="stat-label">今日 <span class="global-badge">全球统一</span></div></div>
-                <div class="stat-box"><div class="stat-value" id="yesterday-views">加载中...</div><div class="stat-label">昨日 <span class="global-badge">全球统一</span></div></div>
+                <div class="stat-box"><div class="stat-value" id="total-views">--</div><div class="stat-label">总预览</div></div>
+                <div class="stat-box"><div class="stat-value" id="today-views">--</div><div class="stat-label">今日</div></div>
+                <div class="stat-box"><div class="stat-value" id="yesterday-views">--</div><div class="stat-label">昨日</div></div>
             </div>
             <div class="icp-section">
                 <a href="#" id="icp-link" target="_blank" class="icp-link"><i class="fas fa-shield-alt"></i> <span id="icp-text">加载中...</span></a>
@@ -579,7 +578,6 @@
     updateSiteRuntime();
     updateCurrentTime();
 
-    // 加载产品列表
     async function loadProducts() {
         try {
             const res = await fetch('/api/products');
@@ -636,7 +634,6 @@
         }
     }
 
-    // 加载统计
     async function loadStats() {
         try {
             const res = await fetch('/api/stats/inc');
@@ -649,26 +646,21 @@
         }
     }
 
-    // 加载配置
     async function loadConfig() {
         try {
             const res = await fetch('/api/config');
             const config = await res.json();
 
-            // 站点信息
             document.getElementById('site-title').innerText = config.site.title;
             document.getElementById('site-subtitle').innerText = config.site.subtitle;
 
-            // 联系方式
             document.getElementById('contact-group').href = config.contacts.groupLink;
             document.getElementById('contact-developer').href = config.contacts.developerLink;
 
-            // 页脚
             document.getElementById('icp-link').href = config.footer.icpLink;
             document.getElementById('icp-text').innerText = config.footer.icpText;
             document.getElementById('copyright-text').innerText = config.footer.copyright;
 
-            // 赞赏二维码
             document.getElementById('wechat-qr-img').src = config.rewards.wechatQr;
             document.getElementById('wechat-label').innerText = config.rewards.wechatLabel;
             document.getElementById('wechat-note').innerText = config.rewards.wechatNote;
@@ -676,7 +668,6 @@
             document.getElementById('alipay-label').innerText = config.rewards.alipayLabel;
             document.getElementById('alipay-note').innerText = config.rewards.alipayNote;
 
-            // 如果图片加载失败，显示默认占位符
             const qrImgs = document.querySelectorAll('#wechat-qr-img, #alipay-qr-img');
             qrImgs.forEach(img => {
                 img.onerror = function() {
@@ -714,7 +705,6 @@
         });
     }
 
-    // 回到顶部
     const backToTopBtn = document.getElementById('back-to-top');
     const progressCircle = document.querySelector('.progress-ring-circle');
     const radius = 23;
@@ -752,7 +742,6 @@
         requestAnimationFrame(animate);
     });
 
-    // 浏览器警告
     function checkBrowser() {
         const ua = navigator.userAgent.toLowerCase();
         if ((ua.includes('baidu') || ua.includes('ucbrowser') || ua.includes('qqbrowser')) && !localStorage.getItem('browser_warning_closed')) {
@@ -765,7 +754,6 @@
     });
     checkBrowser();
 
-    // 赞赏弹窗
     const rewardBtn = document.getElementById('reward-btn');
     const rewardModal = document.getElementById('reward-modal');
     const modalCloseBtn = document.querySelector('.reward-modal-close');
@@ -773,7 +761,6 @@
     modalCloseBtn.addEventListener('click', () => rewardModal.classList.remove('show'));
     rewardModal.addEventListener('click', (e) => { if (e.target === rewardModal) rewardModal.classList.remove('show'); });
 
-    // 初始化
     loadProducts();
     loadStats();
     loadConfig();

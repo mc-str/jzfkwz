@@ -138,6 +138,14 @@
             max-width: 400px;
             margin: 5rem auto;
         }
+        .info-text {
+            background: #f0f9ff;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            color: #0369a1;
+            margin-bottom: 1rem;
+        }
         @media (max-width: 640px) {
             body { padding: 0.5rem; }
             .card { padding: 1rem; }
@@ -185,7 +193,9 @@
                 </div>
                 <div style="overflow-x: auto;">
                     <table id="products-table">
-                        <thead><tr><th>ID</th><th>名称</th><th>版本</th><th>大小</th><th>状态</th><th>操作</th></tr></thead>
+                        <thead>
+                            <tr><th>ID</th><th>名称</th><th>版本</th><th>大小</th><th>状态</th><th>操作</th></tr>
+                        </thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -212,10 +222,13 @@
                     <div class="form-group"><label>版权文字</label><input type="text" id="footer-copyright"></div>
 
                     <h3>赞赏二维码</h3>
-                    <div class="form-group"><label>微信二维码URL</label><input type="url" id="reward-wechat-url" placeholder="./wechat_qr.png"></div>
+                    <div class="info-text">
+                        📌 二维码图片请直接替换服务器上的以下文件：<br>
+                        📁 public/wechat_qr.png （微信）<br>
+                        📁 public/alipay_qr.png （支付宝）
+                    </div>
                     <div class="form-group"><label>微信标签</label><input type="text" id="reward-wechat-label" value="微信赞赏"></div>
                     <div class="form-group"><label>微信提示</label><input type="text" id="reward-wechat-note" value="微信扫码支持"></div>
-                    <div class="form-group"><label>支付宝二维码URL</label><input type="url" id="reward-alipay-url" placeholder="./alipay_qr.png"></div>
                     <div class="form-group"><label>支付宝标签</label><input type="text" id="reward-alipay-label" value="支付宝赞赏"></div>
                     <div class="form-group"><label>支付宝提示</label><input type="text" id="reward-alipay-note" value="支付宝扫码支持"></div>
 
@@ -285,12 +298,13 @@
                 const actions = row.insertCell(5);
                 actions.className = 'product-actions';
                 actions.innerHTML = `<button class="small" onclick="editProduct('${p.id}')"><i class="fas fa-edit"></i> 编辑</button> <button class="small danger" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i> 删除</button>`;
-                // 移动端适配：添加 data-label
+                // 移动端适配
                 const cells = row.cells;
-                for(let i=0; i<cells.length; i++) {
+                for(let i=0; i<cells.length-1; i++) {
                     const header = document.querySelector('#products-table thead tr').children[i].innerText;
                     cells[i].setAttribute('data-label', header);
                 }
+                actions.setAttribute('data-label', '操作');
             });
         } catch (err) { showError('加载产品失败'); }
     }
@@ -306,10 +320,8 @@
             document.getElementById('footer-icp-link').value = config.footer.icpLink;
             document.getElementById('footer-icp-text').value = config.footer.icpText;
             document.getElementById('footer-copyright').value = config.footer.copyright;
-            document.getElementById('reward-wechat-url').value = config.rewards.wechatQr;
             document.getElementById('reward-wechat-label').value = config.rewards.wechatLabel;
             document.getElementById('reward-wechat-note').value = config.rewards.wechatNote;
-            document.getElementById('reward-alipay-url').value = config.rewards.alipayQr;
             document.getElementById('reward-alipay-label').value = config.rewards.alipayLabel;
             document.getElementById('reward-alipay-note').value = config.rewards.alipayNote;
         } catch (err) { showError('加载配置失败'); }
@@ -332,10 +344,8 @@
                 copyright: document.getElementById('footer-copyright').value
             },
             rewards: {
-                wechatQr: document.getElementById('reward-wechat-url').value,
                 wechatLabel: document.getElementById('reward-wechat-label').value,
                 wechatNote: document.getElementById('reward-wechat-note').value,
-                alipayQr: document.getElementById('reward-alipay-url').value,
                 alipayLabel: document.getElementById('reward-alipay-label').value,
                 alipayNote: document.getElementById('reward-alipay-note').value
             }
@@ -399,13 +409,13 @@
         if (id) { url = `/api/products/${id}`; method = 'PUT'; }
         try {
             const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auth: authToken, product }) });
+            const result = await res.json();
             if (res.ok) {
                 showMessage('保存成功');
                 closeModal();
                 loadProducts();
             } else {
-                const err = await res.json();
-                showError(err.error || '保存失败');
+                showError(result.error || '保存失败');
             }
         } catch (err) { showError('网络错误'); }
     }
