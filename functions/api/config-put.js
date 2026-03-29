@@ -1,22 +1,35 @@
-import { getConfig, setConfig, verifyAdmin, corsHeaders } from '../_helpers';
+import { verifyAdmin, corsHeaders } from '../_helpers';
 
 export async function onRequest(context) {
     const { request, env } = context;
-    if (request.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
-
+    
+    if (request.method === 'OPTIONS') {
+        return new Response(null, { headers: corsHeaders });
+    }
+    
     try {
         const { auth, config } = await request.json();
+        
         if (!verifyAdmin(auth, env)) {
             return new Response(JSON.stringify({ error: '未授权' }), {
                 status: 401,
                 headers: { 'Content-Type': 'application/json', ...corsHeaders }
             });
         }
-
-        // 合并现有配置，避免覆盖未管理的字段（如免责声明）
-        const current = await getConfig(env.DATA_KV);
-        const newConfig = { ...current, ...config };
-        await setConfig(env.DATA_KV, newConfig);
+        
+        // 更新配置
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.site.title), 'site_title').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.site.subtitle), 'site_subtitle').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.contacts.groupLink), 'group_link').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.contacts.developerLink), 'developer_link').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.footer.icpLink), 'icp_link').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.footer.icpText), 'icp_text').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.footer.copyright), 'copyright').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.rewards.wechatLabel), 'wechat_label').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.rewards.wechatNote), 'wechat_note').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.rewards.alipayLabel), 'alipay_label').run();
+        await env.DB.prepare('UPDATE config SET value = ? WHERE key = ?').bind(JSON.stringify(config.rewards.alipayNote), 'alipay_note').run();
+        
         return new Response(JSON.stringify({ success: true }), {
             headers: { 'Content-Type': 'application/json', ...corsHeaders }
         });
