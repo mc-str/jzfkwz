@@ -30,7 +30,12 @@ export async function onRequest(context) {
         }
         
         // 获取现有产品列表
-        const products = await getProducts(env.DATA_KV);
+        let products = await getProducts(env.DATA_KV);
+        
+        // 确保 products 是数组
+        if (!Array.isArray(products)) {
+            products = [];
+        }
         
         // 生成新 ID（使用时间戳）
         const newId = Date.now().toString();
@@ -57,7 +62,8 @@ export async function onRequest(context) {
         return new Response(JSON.stringify({ 
             success: true, 
             product: newProduct,
-            message: '保存成功'
+            message: '保存成功',
+            totalCount: products.length
         }), {
             headers: { 'Content-Type': 'application/json', ...corsHeaders }
         });
