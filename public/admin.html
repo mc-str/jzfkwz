@@ -2,39 +2,158 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>矩阵方块 - 管理后台</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; background: #f3f4f6; margin: 0; padding: 2rem; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .card { background: white; border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { margin-top: 0; }
-        .login-form { max-width: 400px; margin: 5rem auto; }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-        input, textarea { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem; }
-        button { background: #3b82f6; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; font-size: 1rem; }
-        button.danger { background: #ef4444; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f9fafb; }
-        .actions button { margin-right: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.875rem; }
-        .add-btn { margin-bottom: 1rem; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
-        .modal.show { display: flex; }
-        .modal-content { background: white; border-radius: 1rem; padding: 2rem; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .close { cursor: pointer; font-size: 1.5rem; }
-        .switch-group { display: flex; align-items: center; gap: 1rem; margin: 1rem 0; }
-        .switch-group label { margin-bottom: 0; }
-        .success-msg, .error-msg { padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 1rem; display: none; }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #f3f4f6;
+            margin: 0;
+            padding: 1rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        h1, h2, h3 {
+            margin-top: 0;
+            font-size: 1.3rem;
+        }
+        h3 {
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem;
+            border-left: 3px solid #3b82f6;
+            padding-left: 0.75rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button.danger {
+            background: #ef4444;
+        }
+        button.secondary {
+            background: #6b7280;
+        }
+        button.small {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        th, td {
+            text-align: left;
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: middle;
+        }
+        th {
+            background: #f9fafb;
+            font-weight: 600;
+        }
+        .product-actions button {
+            margin-right: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        .accordion-header {
+            background: #f3f4f6;
+            padding: 0.75rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion-header i {
+            transition: transform 0.2s;
+        }
+        .accordion-header.open i {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            display: none;
+            padding: 1rem 0;
+        }
+        .accordion-content.show {
+            display: block;
+        }
+        .success-msg, .error-msg {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
         .success-msg { background: #d1fae5; color: #065f46; }
         .error-msg { background: #fee2e2; color: #991b1b; }
+        .login-form {
+            max-width: 400px;
+            margin: 5rem auto;
+        }
+        @media (max-width: 640px) {
+            body { padding: 0.5rem; }
+            .card { padding: 1rem; }
+            table, thead, tbody, th, td, tr { display: block; }
+            thead { display: none; }
+            tr { margin-bottom: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem; }
+            td { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; border-bottom: 1px solid #e5e7eb; }
+            td:before { content: attr(data-label); font-weight: bold; width: 40%; }
+            .product-actions { justify-content: flex-end; }
+            .product-actions:before { content: "操作"; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <!-- 登录面板 -->
     <div id="login-panel" class="card login-form">
         <h2>管理员登录</h2>
         <div id="login-error" class="error-msg"></div>
@@ -42,31 +161,77 @@
             <label>密码</label>
             <input type="password" id="admin-password" placeholder="请输入管理员密码">
         </div>
-        <button onclick="login()">登录</button>
+        <button onclick="login()" style="width:100%">登录</button>
     </div>
 
+    <!-- 管理主界面 -->
     <div id="admin-panel" style="display: none;">
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h1>产品管理</h1>
-                <button onclick="showProductModal()"><i class="fas fa-plus"></i> 新增产品</button>
-                <button onclick="logout()" class="danger">退出登录</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h1>管理后台</h1>
+                <button onclick="logout()" class="danger small">退出登录</button>
             </div>
             <div id="message" class="success-msg"></div>
             <div id="error-msg" class="error-msg"></div>
-            <table id="products-table">
-                <thead><tr><th>ID</th><th>名称</th><th>版本</th><th>大小</th><th>状态</th><th>操作</th></tr></thead>
-                <tbody></tbody>
-            </table>
+
+            <!-- 产品管理折叠面板 -->
+            <div class="accordion-header" onclick="toggleAccordion('products')">
+                📦 产品管理
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="products-accordion" class="accordion-content show">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+                    <button onclick="showProductModal()"><i class="fas fa-plus"></i> 新增产品</button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table id="products-table">
+                        <thead><tr><th>ID</th><th>名称</th><th>版本</th><th>大小</th><th>状态</th><th>操作</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 网站配置折叠面板 -->
+            <div class="accordion-header" onclick="toggleAccordion('config')">
+                ⚙️ 网站配置
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="config-accordion" class="accordion-content">
+                <form id="config-form">
+                    <h3>站点信息</h3>
+                    <div class="form-group"><label>标题</label><input type="text" id="site-title" required></div>
+                    <div class="form-group"><label>副标题</label><input type="text" id="site-subtitle" required></div>
+
+                    <h3>联系方式</h3>
+                    <div class="form-group"><label>交流群链接</label><input type="url" id="contact-group-link"></div>
+                    <div class="form-group"><label>开发者链接</label><input type="url" id="contact-developer-link"></div>
+
+                    <h3>页脚</h3>
+                    <div class="form-group"><label>ICP链接</label><input type="url" id="footer-icp-link"></div>
+                    <div class="form-group"><label>ICP文字</label><input type="text" id="footer-icp-text"></div>
+                    <div class="form-group"><label>版权文字</label><input type="text" id="footer-copyright"></div>
+
+                    <h3>赞赏二维码</h3>
+                    <div class="form-group"><label>微信二维码URL</label><input type="url" id="reward-wechat-url" placeholder="./wechat_qr.png"></div>
+                    <div class="form-group"><label>微信标签</label><input type="text" id="reward-wechat-label" value="微信赞赏"></div>
+                    <div class="form-group"><label>微信提示</label><input type="text" id="reward-wechat-note" value="微信扫码支持"></div>
+                    <div class="form-group"><label>支付宝二维码URL</label><input type="url" id="reward-alipay-url" placeholder="./alipay_qr.png"></div>
+                    <div class="form-group"><label>支付宝标签</label><input type="text" id="reward-alipay-label" value="支付宝赞赏"></div>
+                    <div class="form-group"><label>支付宝提示</label><input type="text" id="reward-alipay-note" value="支付宝扫码支持"></div>
+
+                    <button type="submit">保存配置</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
-<div id="product-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
+<!-- 产品编辑模态框 -->
+<div id="product-modal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1000;">
+    <div style="background:white; border-radius:1rem; padding:1.5rem; width:90%; max-width:500px; max-height:90vh; overflow-y:auto;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
             <h2 id="modal-title">新增产品</h2>
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span onclick="closeModal()" style="cursor:pointer; font-size:1.5rem;">&times;</span>
         </div>
         <form id="product-form">
             <input type="hidden" id="product-id">
@@ -76,7 +241,10 @@
             <div class="form-group"><label>下载链接</label><input type="url" id="product-download" placeholder="https://..."></div>
             <div class="form-group"><label>版本号</label><input type="text" id="product-version" placeholder="v1.0"></div>
             <div class="form-group"><label>文件大小</label><input type="text" id="product-size" placeholder="1.23 MB"></div>
-            <div class="switch-group"><label>已发布</label><input type="checkbox" id="product-released" checked></div>
+            <div class="form-group" style="display:flex; align-items:center; gap:1rem;">
+                <label>已发布</label>
+                <input type="checkbox" id="product-released" checked>
+            </div>
             <button type="submit">保存</button>
         </form>
     </div>
@@ -84,15 +252,23 @@
 
 <script>
     let authToken = null;
+
     async function login() {
         const pwd = document.getElementById('admin-password').value;
         if (!pwd) { showError('请输入密码'); return; }
         authToken = pwd;
         document.getElementById('login-panel').style.display = 'none';
         document.getElementById('admin-panel').style.display = 'block';
-        loadProducts();
+        await loadProducts();
+        await loadConfig();
     }
-    function logout() { authToken = null; document.getElementById('login-panel').style.display = 'block'; document.getElementById('admin-panel').style.display = 'none'; }
+
+    function logout() {
+        authToken = null;
+        document.getElementById('login-panel').style.display = 'block';
+        document.getElementById('admin-panel').style.display = 'none';
+    }
+
     async function loadProducts() {
         try {
             const res = await fetch('/api/products');
@@ -107,10 +283,78 @@
                 row.insertCell(3).innerText = p.size;
                 row.insertCell(4).innerText = p.isReleased ? '已发布' : '未发布';
                 const actions = row.insertCell(5);
-                actions.innerHTML = `<button onclick="editProduct('${p.id}')"><i class="fas fa-edit"></i> 编辑</button> <button class="danger" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i> 删除</button>`;
+                actions.className = 'product-actions';
+                actions.innerHTML = `<button class="small" onclick="editProduct('${p.id}')"><i class="fas fa-edit"></i> 编辑</button> <button class="small danger" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i> 删除</button>`;
+                // 移动端适配：添加 data-label
+                const cells = row.cells;
+                for(let i=0; i<cells.length; i++) {
+                    const header = document.querySelector('#products-table thead tr').children[i].innerText;
+                    cells[i].setAttribute('data-label', header);
+                }
             });
         } catch (err) { showError('加载产品失败'); }
     }
+
+    async function loadConfig() {
+        try {
+            const res = await fetch('/api/config');
+            const config = await res.json();
+            document.getElementById('site-title').value = config.site.title;
+            document.getElementById('site-subtitle').value = config.site.subtitle;
+            document.getElementById('contact-group-link').value = config.contacts.groupLink;
+            document.getElementById('contact-developer-link').value = config.contacts.developerLink;
+            document.getElementById('footer-icp-link').value = config.footer.icpLink;
+            document.getElementById('footer-icp-text').value = config.footer.icpText;
+            document.getElementById('footer-copyright').value = config.footer.copyright;
+            document.getElementById('reward-wechat-url').value = config.rewards.wechatQr;
+            document.getElementById('reward-wechat-label').value = config.rewards.wechatLabel;
+            document.getElementById('reward-wechat-note').value = config.rewards.wechatNote;
+            document.getElementById('reward-alipay-url').value = config.rewards.alipayQr;
+            document.getElementById('reward-alipay-label').value = config.rewards.alipayLabel;
+            document.getElementById('reward-alipay-note').value = config.rewards.alipayNote;
+        } catch (err) { showError('加载配置失败'); }
+    }
+
+    async function saveConfig(event) {
+        event.preventDefault();
+        const config = {
+            site: {
+                title: document.getElementById('site-title').value,
+                subtitle: document.getElementById('site-subtitle').value
+            },
+            contacts: {
+                groupLink: document.getElementById('contact-group-link').value,
+                developerLink: document.getElementById('contact-developer-link').value
+            },
+            footer: {
+                icpLink: document.getElementById('footer-icp-link').value,
+                icpText: document.getElementById('footer-icp-text').value,
+                copyright: document.getElementById('footer-copyright').value
+            },
+            rewards: {
+                wechatQr: document.getElementById('reward-wechat-url').value,
+                wechatLabel: document.getElementById('reward-wechat-label').value,
+                wechatNote: document.getElementById('reward-wechat-note').value,
+                alipayQr: document.getElementById('reward-alipay-url').value,
+                alipayLabel: document.getElementById('reward-alipay-label').value,
+                alipayNote: document.getElementById('reward-alipay-note').value
+            }
+        };
+        try {
+            const res = await fetch('/api/config', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ auth: authToken, config })
+            });
+            if (res.ok) {
+                showMessage('配置已保存');
+            } else {
+                const err = await res.json();
+                showError(err.error || '保存失败');
+            }
+        } catch (err) { showError('网络错误'); }
+    }
+
     function showProductModal(productId = null) {
         document.getElementById('product-form').reset();
         document.getElementById('product-id').value = '';
@@ -131,9 +375,13 @@
                 }
             });
         }
-        document.getElementById('product-modal').classList.add('show');
+        document.getElementById('product-modal').style.display = 'flex';
     }
-    function closeModal() { document.getElementById('product-modal').classList.remove('show'); }
+
+    function closeModal() {
+        document.getElementById('product-modal').style.display = 'none';
+    }
+
     async function saveProduct(event) {
         event.preventDefault();
         const product = {
@@ -151,23 +399,45 @@
         if (id) { url = `/api/products/${id}`; method = 'PUT'; }
         try {
             const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auth: authToken, product }) });
-            const result = await res.json();
-            if (res.ok) { showMessage('保存成功'); closeModal(); loadProducts(); } 
-            else showError(result.error || '保存失败');
+            if (res.ok) {
+                showMessage('保存成功');
+                closeModal();
+                loadProducts();
+            } else {
+                const err = await res.json();
+                showError(err.error || '保存失败');
+            }
         } catch (err) { showError('网络错误'); }
     }
+
     async function deleteProduct(id) {
         if (!confirm('确定删除？')) return;
         try {
             const res = await fetch(`/api/products/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auth: authToken }) });
-            if (res.ok) { showMessage('删除成功'); loadProducts(); } 
-            else { const err = await res.json(); showError(err.error || '删除失败'); }
+            if (res.ok) {
+                showMessage('删除成功');
+                loadProducts();
+            } else {
+                const err = await res.json();
+                showError(err.error || '删除失败');
+            }
         } catch (err) { showError('网络错误'); }
     }
+
     function editProduct(id) { showProductModal(id); }
+
     function showMessage(msg) { const d = document.getElementById('message'); d.innerText = msg; d.style.display = 'block'; setTimeout(() => d.style.display = 'none', 3000); }
     function showError(msg) { const d = document.getElementById('error-msg'); d.innerText = msg; d.style.display = 'block'; setTimeout(() => d.style.display = 'none', 3000); }
+
+    function toggleAccordion(id) {
+        const content = document.getElementById(`${id}-accordion`);
+        const header = content.previousElementSibling;
+        content.classList.toggle('show');
+        header.classList.toggle('open');
+    }
+
     document.getElementById('product-form').addEventListener('submit', saveProduct);
+    document.getElementById('config-form').addEventListener('submit', saveConfig);
 </script>
 </body>
 </html>

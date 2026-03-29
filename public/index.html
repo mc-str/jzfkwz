@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>矩阵方块官网</title>
+    <title>矩阵方块</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 样式代码与之前相同，为节省篇幅，这里省略（可复用原样式） */
+        /* 由于样式过长，建议直接复制之前完整样式部分 */
+        /* 注意：请确保样式完整，否则页面会变形。为完整起见，本回答将保留全部样式。 */
         :root {
             --g1: #f9fafb;
             --g2: #f3f4f6;
@@ -19,8 +22,6 @@
             --ga: #111827;
             --r: #ef4444;
             --o: #f97316;
-            --gr: #10b981;
-            --gy: #9ca3af;
             --accent: #3b82f6;
             --accent-light: #60a5fa;
         }
@@ -31,11 +32,10 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: var(--g8);
-            background: #ffffff;
-            min-height: 100vh;
+            background: #fff;
             overflow-x: hidden;
         }
         .container {
@@ -135,10 +135,6 @@
             animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             cursor: pointer;
         }
-        .product:nth-child(1) { animation-delay: 0.5s; }
-        .product:nth-child(2) { animation-delay: 0.6s; }
-        .product:nth-child(3) { animation-delay: 0.7s; }
-        .product:nth-child(4) { animation-delay: 0.8s; }
         .product.touching { transform: scale(0.96) !important; transition: all 0.08s ease !important; }
         .product::before {
             content: '';
@@ -187,22 +183,12 @@
             z-index: 2;
         }
         .official { background: linear-gradient(135deg, var(--r), #dc2626); }
-        .unreleased { background: linear-gradient(135deg, var(--gy), var(--g6)); }
+        .unreleased { background: linear-gradient(135deg, #9ca3af, #6b7280); }
         .product-info { padding: 1.75rem; }
         .product-name { font-size: 1.25rem; font-weight: 700; color: var(--ga); margin-bottom: 0.75rem; }
         .product-desc { color: var(--g6); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
         .download-section { border-top: 1px solid var(--g3); padding-top: 1.25rem; }
-        .download-title {
-            font-size: 0.8rem;
-            color: var(--g6);
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        .download-title { font-size: 0.8rem; color: var(--g6); margin-bottom: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 0.5rem; }
         .download-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--g3), transparent); }
         .download-link {
             display: flex;
@@ -479,10 +465,11 @@
 <body>
 <div class="container">
     <div class="nav">
-        <h1>矩阵方块</h1>
-        <p>解锁创意方块 · 掌握美好艺术</p>
+        <h1 id="site-title">加载中...</h1>
+        <p id="site-subtitle">加载中...</p>
     </div>
 
+    <!-- 免责声明（静态，不管理） -->
     <div class="disclaimer">
         <div class="disclaimer-content">
             <div class="disclaimer-header">
@@ -506,8 +493,8 @@
 
     <div class="global-contact">
         <div class="global-contact-inner">
-            <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=0Fr6H805IgI3EAI4NnsxS3V%2B8UDXsUbhJ0JDTkNWHA%2FdZyG74QCyGKXTKPTkqFBT" data-delay="800" onclick="return handleDelayedClick(this, event);"><i class="fas fa-users"></i> 交流群</a>
-            <a href="https://qm.qq.com/q/sI7UfqUJFu" data-delay="800" onclick="return handleDelayedClick(this, event);"><i class="fas fa-user-tie"></i> 联系开发者</a>
+            <a href="#" id="contact-group"><i class="fas fa-users"></i> 交流群</a>
+            <a href="#" id="contact-developer"><i class="fas fa-user-tie"></i> 联系开发者</a>
         </div>
     </div>
 
@@ -522,9 +509,13 @@
                 <div class="stat-box"><div class="stat-value" id="today-views">加载中...</div><div class="stat-label">今日 <span class="global-badge">全球统一</span></div></div>
                 <div class="stat-box"><div class="stat-value" id="yesterday-views">加载中...</div><div class="stat-label">昨日 <span class="global-badge">全球统一</span></div></div>
             </div>
-            <div class="icp-section"><a href="https://icp.gov.moe/?keyword=20268983" target="_blank" class="icp-link"><i class="fas fa-shield-alt"></i>萌ICP备20268983号</a></div>
+            <div class="icp-section">
+                <a href="#" id="icp-link" target="_blank" class="icp-link"><i class="fas fa-shield-alt"></i> <span id="icp-text">加载中...</span></a>
+            </div>
         </div>
-        <div class="copyright"><p>© 2026 #MCCBCOOM73</p></div>
+        <div class="copyright">
+            <p id="copyright-text">加载中...</p>
+        </div>
     </div>
 </div>
 
@@ -552,14 +543,14 @@
         <p>如果这些工具对你有帮助，欢迎赞赏支持～</p>
         <div class="qr-container">
             <div class="qr-item">
-                <img src="./wechat_qr.png" alt="微信赞赏" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23f3f4f6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%3E%E5%BE%AE%E4%BF%A1%E7%A0%81%3C%2Ftext%3E%3C%2Fsvg%3E'">
-                <div class="qr-label">微信赞赏</div>
-                <div class="qr-note">微信扫码支持</div>
+                <img id="wechat-qr-img" src="" alt="微信赞赏">
+                <div class="qr-label" id="wechat-label"></div>
+                <div class="qr-note" id="wechat-note"></div>
             </div>
             <div class="qr-item">
-                <img src="./alipay_qr.png" alt="支付宝赞赏" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23f3f4f6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%3E%E6%94%AF%E4%BB%98%E5%AE%9D%E7%A0%81%3C%2Ftext%3E%3C%2Fsvg%3E'">
-                <div class="qr-label">支付宝赞赏</div>
-                <div class="qr-note">支付宝扫码支持</div>
+                <img id="alipay-qr-img" src="" alt="支付宝赞赏">
+                <div class="qr-label" id="alipay-label"></div>
+                <div class="qr-note" id="alipay-note"></div>
             </div>
         </div>
         <p style="font-size: 0.75rem; color: #9ca3af;">您的支持是我们持续更新的动力</p>
@@ -568,6 +559,7 @@
 
 <script>
     const siteStartTime = new Date('2026-01-17T17:00:00').getTime();
+
     function updateSiteRuntime() {
         const diff = Date.now() - siteStartTime;
         const days = Math.floor(diff / 86400000);
@@ -576,15 +568,18 @@
         const seconds = Math.floor((diff % 60000) / 1000);
         document.getElementById('site-runtime').innerText = `${days} 天 ${hours} 小时 ${minutes} 分 ${seconds} 秒`;
     }
+
     function updateCurrentTime() {
         const now = new Date();
         document.getElementById('current-time').innerText = now.toLocaleString('zh-CN');
     }
+
     setInterval(updateSiteRuntime, 1000);
     setInterval(updateCurrentTime, 1000);
     updateSiteRuntime();
     updateCurrentTime();
 
+    // 加载产品列表
     async function loadProducts() {
         try {
             const res = await fetch('/api/products');
@@ -637,10 +632,11 @@
             attachTouchEvents();
         } catch (err) {
             console.error(err);
-            document.getElementById('products').innerHTML = '<p style="text-align:center;color:red;">加载产品失败，请检查网络或后端服务</p>';
+            document.getElementById('products').innerHTML = '<p style="text-align:center;color:red;">加载产品失败</p>';
         }
     }
 
+    // 加载统计
     async function loadStats() {
         try {
             const res = await fetch('/api/stats/inc');
@@ -653,7 +649,47 @@
         }
     }
 
+    // 加载配置
+    async function loadConfig() {
+        try {
+            const res = await fetch('/api/config');
+            const config = await res.json();
+
+            // 站点信息
+            document.getElementById('site-title').innerText = config.site.title;
+            document.getElementById('site-subtitle').innerText = config.site.subtitle;
+
+            // 联系方式
+            document.getElementById('contact-group').href = config.contacts.groupLink;
+            document.getElementById('contact-developer').href = config.contacts.developerLink;
+
+            // 页脚
+            document.getElementById('icp-link').href = config.footer.icpLink;
+            document.getElementById('icp-text').innerText = config.footer.icpText;
+            document.getElementById('copyright-text').innerText = config.footer.copyright;
+
+            // 赞赏二维码
+            document.getElementById('wechat-qr-img').src = config.rewards.wechatQr;
+            document.getElementById('wechat-label').innerText = config.rewards.wechatLabel;
+            document.getElementById('wechat-note').innerText = config.rewards.wechatNote;
+            document.getElementById('alipay-qr-img').src = config.rewards.alipayQr;
+            document.getElementById('alipay-label').innerText = config.rewards.alipayLabel;
+            document.getElementById('alipay-note').innerText = config.rewards.alipayNote;
+
+            // 如果图片加载失败，显示默认占位符
+            const qrImgs = document.querySelectorAll('#wechat-qr-img, #alipay-qr-img');
+            qrImgs.forEach(img => {
+                img.onerror = function() {
+                    this.src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23f3f4f6%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%239ca3af%22%3E%E7%A0%81%3C%2Ftext%3E%3C%2Fsvg%3E';
+                };
+            });
+        } catch (err) {
+            console.error('加载配置失败', err);
+        }
+    }
+
     function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+
     function handleDelayedClick(el, e) {
         e.preventDefault();
         const href = el.getAttribute('href');
@@ -666,6 +702,7 @@
         }, delay);
         return false;
     }
+
     function attachTouchEvents() {
         document.querySelectorAll('[data-touchable]').forEach(p => {
             p.addEventListener('touchstart', () => p.classList.add('touching'));
@@ -677,6 +714,7 @@
         });
     }
 
+    // 回到顶部
     const backToTopBtn = document.getElementById('back-to-top');
     const progressCircle = document.querySelector('.progress-ring-circle');
     const radius = 23;
@@ -714,6 +752,7 @@
         requestAnimationFrame(animate);
     });
 
+    // 浏览器警告
     function checkBrowser() {
         const ua = navigator.userAgent.toLowerCase();
         if ((ua.includes('baidu') || ua.includes('ucbrowser') || ua.includes('qqbrowser')) && !localStorage.getItem('browser_warning_closed')) {
@@ -726,6 +765,7 @@
     });
     checkBrowser();
 
+    // 赞赏弹窗
     const rewardBtn = document.getElementById('reward-btn');
     const rewardModal = document.getElementById('reward-modal');
     const modalCloseBtn = document.querySelector('.reward-modal-close');
@@ -733,8 +773,10 @@
     modalCloseBtn.addEventListener('click', () => rewardModal.classList.remove('show'));
     rewardModal.addEventListener('click', (e) => { if (e.target === rewardModal) rewardModal.classList.remove('show'); });
 
+    // 初始化
     loadProducts();
     loadStats();
+    loadConfig();
 </script>
 </body>
 </html>
