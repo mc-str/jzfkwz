@@ -863,7 +863,7 @@
         <div class="footer">
             <div class="footer-card">
                 <div class="footer-time-section">
-                    <div class="time-display"><i class="far fa-clock"></i><span id="current-time">2026-03-21 00:00:00</span></div>
+                    <div class="time-display"><i class="far fa-clock"></i><span id="current-time">2026-04-03 00:00:00</span></div>
                     <div class="runtime-display"><i class="fas fa-heartbeat"></i><span>已运行</span><span class="runtime-value" id="site-runtime">0 天 0 小时 0 分 0 秒</span></div>
                 </div>
                 <div class="footer-stats">
@@ -918,31 +918,69 @@
     </div>
 
     <script>
-        // 加载 data.json 中的数据
-        async function loadProductsFromJSON() {
+        // ==================== GitHub 配置 ====================
+        // ⚠️ 请将下面三个值替换成您自己的
+        const GITHUB_USER = "YOUR_GITHUB_USERNAME";      // 替换为您的 GitHub 用户名
+        const GITHUB_REPO = "YOUR_REPO_NAME";            // 替换为您的仓库名
+        const GITHUB_TOKEN = "YOUR_GITHUB_TOKEN";        // 替换为您的 GitHub Token
+        
+        const DATA_FILE = "data.json";
+        const STATS_FILE = "stats.json";
+        
+        const DATA_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${DATA_FILE}`;
+        const STATS_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${STATS_FILE}`;
+        
+        // ==================== 通用 GitHub API 请求 ====================
+        async function fetchGitHubFile(url) {
+            const response = await fetch(url, {
+                headers: { "Authorization": `token ${GITHUB_TOKEN}` }
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            const content = atob(data.content);
+            return { content: JSON.parse(content), sha: data.sha };
+        }
+        
+        async function saveGitHubFile(url, data, sha) {
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${GITHUB_TOKEN}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: "Update data",
+                    content: content,
+                    sha: sha
+                })
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        }
+        
+        // ==================== 产品加载 ====================
+        async function loadProducts() {
             try {
-                const response = await fetch('./data.json');
-                const data = await response.json();
-                return data.products || [];
+                const { content } = await fetchGitHubFile(DATA_URL);
+                return content.products || [];
             } catch (error) {
-                console.error('加载产品数据失败:', error);
+                console.error('加载产品失败:', error);
                 return [];
             }
         }
-
-        // 渲染产品列表
+        
         async function renderProducts() {
             const productsContainer = document.getElementById('products');
-            const products = await loadProductsFromJSON();
+            const products = await loadProducts();
             
             if (products.length === 0) {
                 productsContainer.innerHTML = '<p style="text-align:center;color:var(--g6);">暂无产品</p>';
                 return;
             }
-
-            // 按 id 排序
+            
             products.sort((a, b) => a.id - b.id);
-
+            
             productsContainer.innerHTML = products.map(product => `
                 <div class="product" data-touchable>
                     <div class="product-image">
@@ -985,11 +1023,51 @@
                     </div>
                 </div>
             `).join('');
-
-            // 重新绑定触摸事件
+            
             attachTouchEvents();
         }
-
+        
+        // ==================== 统一访问统计 ====================
+        async function updateAndShowStats() {
+            try {
+                const today = new Date().toISOString().slice(0, 10);
+                const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+                
+                // 读取当前统计数据
+                const { content: stats, sha } = await fetchGitHubFile(STATS_URL);
+                
+                // 更新数据
+                const newTotal = (stats.total || 0) + 1;
+                const newDaily = { ...(stats.daily || {}) };
+                newDaily[today] = (newDaily[today] || 0) + 1;
+                
+                const newStats = { total: newTotal, daily: newDaily };
+                
+                // 保存到 GitHub
+                await saveGitHubFile(STATS_URL, newStats, sha);
+                
+                // 显示数据
+                document.getElementById('total-views').innerText = newTotal.toLocaleString();
+                document.getElementById('today-views').innerText = (newDaily[today] || 0).toLocaleString();
+                document.getElementById('yesterday-views').innerText = (newDaily[yesterday] || 0).toLocaleString();
+                
+            } catch (error) {
+                console.error('统计更新失败:', error);
+                // 如果更新失败，至少尝试读取显示
+                try {
+                    const { content: stats } = await fetchGitHubFile(STATS_URL);
+                    const today = new Date().toISOString().slice(0, 10);
+                    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+                    document.getElementById('total-views').innerText = (stats.total || 0).toLocaleString();
+                    document.getElementById('today-views').innerText = ((stats.daily || {})[today] || 0).toLocaleString();
+                    document.getElementById('yesterday-views').innerText = ((stats.daily || {})[yesterday] || 0).toLocaleString();
+                } catch (e) {
+                    console.error('读取统计失败:', e);
+                }
+            }
+        }
+        
+        // ==================== 辅助函数 ====================
         function escapeHtml(str) {
             if (!str) return '';
             return str.replace(/[&<>]/g, function(m) {
@@ -999,7 +1077,7 @@
                 return m;
             });
         }
-
+        
         function attachTouchEvents() {
             document.querySelectorAll('[data-touchable]').forEach(product => {
                 product.addEventListener('touchstart', function() { this.classList.add('touching'); });
@@ -1010,7 +1088,7 @@
                 product.addEventListener('mouseleave', function() { this.classList.remove('touching'); });
             });
         }
-
+        
         window.handleDelayedClick = function(element, event) {
             event.preventDefault();
             const href = element.getAttribute('href');
@@ -1019,98 +1097,56 @@
             if (product) product.classList.add('touching');
             setTimeout(() => {
                 if (product) product.classList.remove('touching');
-                window.location.href = href;
+                if (href) window.location.href = href;
             }, delay);
             return false;
         };
-
-        // 时间显示
+        
+        // ==================== 时间显示 ====================
         const siteStartTime = new Date('2026-01-17T17:00:00').getTime();
-
+        
         function updateSiteRuntime() {
-            const now = new Date().getTime();
-            const diff = now - siteStartTime;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById('site-runtime').textContent = `${days} 天 ${hours} 小时 ${minutes} 分 ${seconds} 秒`;
+            const diff = Date.now() - siteStartTime;
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const mins = Math.floor((diff % 3600000) / 60000);
+            const secs = Math.floor((diff % 60000) / 1000);
+            document.getElementById('site-runtime').textContent = `${days} 天 ${hours} 小时 ${mins} 分 ${secs} 秒`;
         }
-
+        
         function updateCurrentTime() {
             const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('current-time').textContent = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            document.getElementById('current-time').innerText = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
         }
-
-        // 简单的本地访问统计（存储在 localStorage）
-        function initViewStats() {
-            const today = new Date();
-            const todayKey = `views_${today.getFullYear()}_${today.getMonth() + 1}_${today.getDate()}`;
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-            const yesterdayKey = `views_${yesterday.getFullYear()}_${yesterday.getMonth() + 1}_${yesterday.getDate()}`;
-            let stats = JSON.parse(localStorage.getItem('site_stats') || '{}');
-            const lastVisitDate = localStorage.getItem('last_visit_date');
-            const todayDate = today.toDateString();
-            if (lastVisitDate !== todayDate) {
-                if (stats[todayKey]) stats[yesterdayKey] = stats[todayKey];
-                stats[todayKey] = 0;
-                localStorage.setItem('last_visit_date', todayDate);
-            }
-            stats[todayKey] = (stats[todayKey] || 0) + 1;
-            let totalViews = 0;
-            for (let key in stats) if (key.startsWith('views_')) totalViews += stats[key];
-            localStorage.setItem('site_stats', JSON.stringify(stats));
-            document.getElementById('total-views').textContent = totalViews.toLocaleString();
-            document.getElementById('today-views').textContent = stats[todayKey].toLocaleString();
-            document.getElementById('yesterday-views').textContent = (stats[yesterdayKey] || 0).toLocaleString();
-        }
-
-        // 回到顶部功能
-        const backToTopBtn = document.getElementById('back-to-top');
-        const progressCircle = document.querySelector('.progress-ring-circle');
+        
+        setInterval(updateSiteRuntime, 1000);
+        setInterval(updateCurrentTime, 1000);
+        updateSiteRuntime();
+        updateCurrentTime();
+        
+        // ==================== 回到顶部 ====================
+        const backBtn = document.getElementById('back-to-top');
+        const circle = document.querySelector('.progress-ring-circle');
         const radius = 23;
-        const circumference = 2 * Math.PI * radius;
-        
-        if (progressCircle) {
-            progressCircle.style.strokeDasharray = circumference;
-            progressCircle.style.strokeDashoffset = circumference;
+        const circum = 2 * Math.PI * radius;
+        if (circle) {
+            circle.style.strokeDasharray = circum;
+            circle.style.strokeDashoffset = circum;
         }
         
-        function updateScrollProgress() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            
-            if (scrollTop > 300) {
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
-            }
-            
-            if (scrollHeight > 0 && progressCircle) {
-                const scrollPercent = scrollTop / scrollHeight;
-                const dashOffset = circumference * (1 - scrollPercent);
-                progressCircle.style.strokeDashoffset = dashOffset;
-            }
+        function updateScroll() {
+            const st = window.scrollY;
+            const sh = document.documentElement.scrollHeight - window.innerHeight;
+            if (st > 300) backBtn.classList.add('show');
+            else backBtn.classList.remove('show');
+            if (circle && sh > 0) circle.style.strokeDashoffset = circum * (1 - st / sh);
         }
         
-        window.addEventListener('scroll', updateScrollProgress);
-        window.addEventListener('resize', updateScrollProgress);
-        updateScrollProgress();
+        window.addEventListener('scroll', updateScroll);
+        updateScroll();
+        backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
         
-        if (backToTopBtn) {
-            backToTopBtn.addEventListener('click', function() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-
-        // 浏览器兼容性警告
+        // ==================== 浏览器警告 ====================
         function checkBrowserCompatibility() {
             const ua = navigator.userAgent.toLowerCase();
             const isIncompatible = ua.includes('baidu') || ua.includes('ucbrowser') || ua.includes('qqbrowser') || ua.includes('sogou');
@@ -1119,38 +1155,25 @@
             }
         }
         
-        const closeWarningBtn = document.getElementById('close-warning');
-        if (closeWarningBtn) {
-            closeWarningBtn.addEventListener('click', function() {
-                document.getElementById('browser-warning').classList.remove('show');
-                localStorage.setItem('browser_warning_closed', 'true');
-            });
-        }
+        document.getElementById('close-warning')?.addEventListener('click', function() {
+            document.getElementById('browser-warning').classList.remove('show');
+            localStorage.setItem('browser_warning_closed', 'true');
+        });
+        checkBrowserCompatibility();
         
-        // 赞赏模态框
+        // ==================== 赞赏模态框 ====================
         const rewardBtn = document.getElementById('reward-btn');
         const rewardModal = document.getElementById('reward-modal');
         const modalClose = document.querySelector('.reward-modal-close');
         
-        if (rewardBtn) {
-            rewardBtn.addEventListener('click', () => rewardModal.classList.add('show'));
-        }
-        if (modalClose) {
-            modalClose.addEventListener('click', () => rewardModal.classList.remove('show'));
-        }
-        if (rewardModal) {
-            rewardModal.addEventListener('click', (e) => { if (e.target === rewardModal) rewardModal.classList.remove('show'); });
-        }
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && rewardModal.classList.contains('show')) rewardModal.classList.remove('show'); });
-
-        // 初始化
-        setInterval(updateSiteRuntime, 1000);
-        setInterval(updateCurrentTime, 1000);
-        updateSiteRuntime();
-        updateCurrentTime();
-        initViewStats();
-        checkBrowserCompatibility();
+        rewardBtn?.addEventListener('click', () => rewardModal.classList.add('show'));
+        modalClose?.addEventListener('click', () => rewardModal.classList.remove('show'));
+        rewardModal?.addEventListener('click', (e) => { if (e.target === rewardModal) rewardModal.classList.remove('show'); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && rewardModal?.classList.contains('show')) rewardModal.classList.remove('show'); });
+        
+        // ==================== 初始化 ====================
         renderProducts();
+        updateAndShowStats();
     </script>
 </body>
 </html>
