@@ -1,54 +1,94 @@
 {
   "products": [
     {
-      "id": 1,
       "name": "雪球T显生成器",
       "desc": "编辑后可一键生成静态雪球菜单显示部分。",
-      "imageUrl": "https://s41.ax1x.com/2026/03/20/penMoUx.png",
-      "downloadUrl": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iPZ283gfknib&pwd=aqgi",
-      "version": "v1.5",
-      "size": "6.02 MB",
-      "status": "official"
+      "icon": "https://s41.ax1x.com/2026/03/20/penMoUx.png",
+      "badge": "official",
+      "badgeText": "正式版",
+      "download": {
+        "enabled": true,
+        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iPZ283gfknib&pwd=aqgi",
+        "platform": "Android",
+        "version": "v1.5",
+        "size": "6.02 MB"
+      }
     },
     {
-      "id": 2,
       "name": "动态菜单生成器",
       "desc": "一站式设计快捷编辑,自动生成全部动态雪球菜单指令",
-      "imageUrl": "https://s41.ax1x.com/2026/03/20/penl3ff.png",
-      "downloadUrl": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iMDSY3h1l3ef&pwd=5jvm",
-      "version": "v1.0",
-      "size": "4.84 MB",
-      "status": "official"
+      "icon": "https://s41.ax1x.com/2026/03/20/penl3ff.png",
+      "badge": "official",
+      "badgeText": "正式版",
+      "download": {
+        "enabled": true,
+        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iMDSY3h1l3ef&pwd=5jvm",
+        "platform": "Android",
+        "version": "v1.0",
+        "size": "4.84 MB"
+      }
     },
     {
-      "id": 3,
       "name": "T显编译器",
       "desc": "可快捷编辑 titleraw/tellraw 同时也可拆分纠错 titleraw/tellraw 便于修改。",
-      "imageUrl": "https://s41.ax1x.com/2026/03/20/penlGp8.png",
-      "downloadUrl": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iLG6W3hfumve&pwd=2p30",
-      "version": "v1.0",
-      "size": "4.30 MB",
-      "status": "official"
+      "icon": "https://s41.ax1x.com/2026/03/20/penlGp8.png",
+      "badge": "official",
+      "badgeText": "正式版",
+      "download": {
+        "enabled": true,
+        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iLG6W3hfumve&pwd=2p30",
+        "platform": "Android",
+        "version": "v1.0",
+        "size": "4.30 MB"
+      }
     },
     {
-      "id": 4,
       "name": "选区助手",
       "desc": "输入x,y,z一键计算dx,dy,dz，便捷添加目标选择器",
-      "imageUrl": "https://s41.ax1x.com/2026/03/21/penvh6g.png",
-      "downloadUrl": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iMDSY3h1l3ef&pwd=5jvm",
-      "version": "v1.0",
-      "size": "3.66 MB",
-      "status": "official"
+      "icon": "https://s41.ax1x.com/2026/03/21/penvh6g.png",
+      "badge": "official",
+      "badgeText": "正式版",
+      "download": {
+        "enabled": true,
+        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iMDSY3h1l3ef&pwd=5jvm",
+        "platform": "Android",
+        "version": "v1.0",
+        "size": "3.66 MB"
+      }
     },
     {
-      "id": 5,
       "name": "命令编辑器",
       "desc": "可一键复制粘贴,快捷编辑命令",
-      "imageUrl": "",
-      "downloadUrl": "",
-      "version": "",
-      "size": "",
-      "status": "unreleased"
+      "icon": null,
+      "badge": "unreleased",
+      "badgeText": "未发布",
+      "download": {
+        "enabled": false,
+        "platform": "Android",
+        "version": "敬请期待",
+        "size": "-- MB"
+      }
     }
-  ]
+  ],
+  "disclaimer": {
+    "title": "软件用户许可及免责声明",
+    "body": "下载或使用软件即视为同意本声明。请仔细阅读条款内容，了解软件使用规范及相关责任界定。",
+    "fileUrl": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iPVT03l7rluf&pwd=7w2m",
+    "fileSize": "3.08 KB"
+  },
+  "contacts": [
+    {
+      "name": "交流群",
+      "url": "https://qun.qq.com/universal-share/share?ac=1&authKey=0Fr6H805IgI3EAI4NnsxS3V%2B8UDXsUbhJ0JDTkNWHA%2FdZyG74QCyGKXTKPTkqFBT",
+      "icon": "users"
+    },
+    {
+      "name": "联系开发者",
+      "url": "https://qm.qq.com/q/sI7UfqUJFu",
+      "icon": "user-tie"
+    }
+  ],
+  "icp": "萌ICP备20268983号",
+  "icpLink": "https://icp.gov.moe/?keyword=20268983",
+  "copyright": "© 2026 #MCCBCOOM73"
 }
