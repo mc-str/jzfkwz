@@ -202,46 +202,43 @@
             const seconds = String(now.getSeconds()).padStart(2, '0');
             document.getElementById('current-time').textContent = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         }
-        function initLocalStats() {
+        function formatDate(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+        async function initGlobalStats() {
+            const namespace = 'matrixblock';
+            const totalKey = 'total_visits';
             const today = new Date();
-            const todayKey = `views_${today.getFullYear()}_${today.getMonth() + 1}_${today.getDate()}`;
+            const todayKey = `daily_${formatDate(today)}`;
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
-            const yesterdayKey = `views_${yesterday.getFullYear()}_${yesterday.getMonth() + 1}_${yesterday.getDate()}`;
-            let stats = JSON.parse(localStorage.getItem('site_stats') || '{}');
-            const lastVisitDate = localStorage.getItem('last_visit_date');
-            const todayDate = today.toDateString();
-            if (lastVisitDate !== todayDate) {
-                if (stats[todayKey]) stats[yesterdayKey] = stats[todayKey];
-                stats[todayKey] = 0;
-                localStorage.setItem('last_visit_date', todayDate);
+            const yesterdayKey = `daily_${formatDate(yesterday)}`;
+            const sessionFlag = sessionStorage.getItem('global_stats_counted');
+            if (!sessionFlag) {
+                try {
+                    await fetch(`https://api.countapi.xyz/hit/${namespace}/${totalKey}`);
+                    await fetch(`https://api.countapi.xyz/hit/${namespace}/${todayKey}`);
+                    sessionStorage.setItem('global_stats_counted', 'true');
+                } catch(e) { console.warn('计数失败', e); }
             }
-            stats[todayKey] = (stats[todayKey] || 0) + 1;
-            localStorage.setItem('site_stats', JSON.stringify(stats));
-            document.getElementById('today-views').textContent = stats[todayKey].toLocaleString();
-            document.getElementById('yesterday-views').textContent = (stats[yesterdayKey] || 0).toLocaleString();
-        }
-        async function initGlobalTotalViews() {
-            const namespace = 'matrixblock';
-            const key = 'total_visits_unified';
-            const totalSpan = document.getElementById('total-views');
-            const sessionFlag = sessionStorage.getItem('global_view_counted');
             try {
-                if (!sessionFlag) {
-                    const res = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
-                    const data = await res.json();
-                    totalSpan.textContent = data.value.toLocaleString();
-                    sessionStorage.setItem('global_view_counted', 'true');
-                } else {
-                    const res = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
-                    const data = await res.json();
-                    totalSpan.textContent = data.value.toLocaleString();
-                }
-            } catch (e) {
-                let fallback = 0;
-                const stats = JSON.parse(localStorage.getItem('site_stats') || '{}');
-                for (let k in stats) if (k.startsWith('views_')) fallback += stats[k];
-                totalSpan.textContent = fallback.toLocaleString();
+                const totalRes = await fetch(`https://api.countapi.xyz/get/${namespace}/${totalKey}`);
+                const totalData = await totalRes.json();
+                document.getElementById('total-views').textContent = totalData.value.toLocaleString();
+                const todayRes = await fetch(`https://api.countapi.xyz/get/${namespace}/${todayKey}`);
+                const todayData = await todayRes.json();
+                document.getElementById('today-views').textContent = (todayData.value || 0).toLocaleString();
+                const yesterdayRes = await fetch(`https://api.countapi.xyz/get/${namespace}/${yesterdayKey}`);
+                const yesterdayData = await yesterdayRes.json();
+                document.getElementById('yesterday-views').textContent = (yesterdayData.value || 0).toLocaleString();
+            } catch(e) {
+                console.warn('获取统计数据失败', e);
+                document.getElementById('total-views').textContent = '--';
+                document.getElementById('today-views').textContent = '--';
+                document.getElementById('yesterday-views').textContent = '--';
             }
         }
         function handleDelayedClick(element, event) {
@@ -346,14 +343,14 @@
                 document.getElementById('copyright-container').innerHTML = `<p>${data.copyright}</p>`;
             } catch (err) {
                 console.error('加载 data.json 失败', err);
+                document.getElementById('products-container').innerHTML = '<p style="text-align:center;color:red;">数据加载失败，请检查 data.json 文件</p>';
             }
         }
         setInterval(updateSiteRuntime, 1000);
         setInterval(updateCurrentTime, 1000);
         updateSiteRuntime();
         updateCurrentTime();
-        initLocalStats();
-        initGlobalTotalViews();
+        initGlobalStats();
         renderFromData();
         function checkBrowserCompatibility() {
             const ua = navigator.userAgent.toLowerCase();
