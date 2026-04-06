@@ -2,7 +2,7 @@
   "products": [
     {
       "name": "雪球T显生成器",
-      "desc": "编辑后可一键生成静态雪球菜单显示部分。",
+      "desc": "完成雪球菜单的静态显示调整后，通过一键操作快速生成静态T显，并实时预览该菜单组件的效果。",
       "icon": "https://s41.ax1x.com/2026/03/20/penMoUx.png",
       "badge": "official",
       "badgeText": "正式版",
