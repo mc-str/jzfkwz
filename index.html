@@ -3,40 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>矩阵方块官网</title>
+    <title>矩阵方块</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root{
             --g1:#f9fafb;--g2:#f3f4f6;--g3:#e5e7eb;--g4:#d1d5db;--g5:#9ca3af;--g6:#6b7280;--g7:#4b5563;--g8:#374151;--g9:#1f2937;--ga:#111827;
             --r:#ef4444;--o:#f97316;--accent:#3b82f6;--accent-light:#60a5fa;
-            --bg:#fff;--card-bg:#fff;--text-primary:var(--g8);--text-secondary:var(--g6);
-            --border-color:var(--g3);--hover-bg:var(--g2);
+            --bg:#ffffff;--card-bg:#ffffff;--text-primary:var(--g8);--text-secondary:var(--g6);
+            --border-color:var(--g3);--hover-bg:var(--g2);--shadow-color:rgba(0,0,0,0.08);
             --transition:all .3s cubic-bezier(0.16,1,0.3,1);
         }
         [data-theme="dark"]{
             --g1:#111827;--g2:#1f2937;--g3:#374151;--g4:#4b5563;--g5:#6b7280;--g6:#9ca3af;--g7:#d1d5db;--g8:#e5e7eb;--g9:#f3f4f6;--ga:#f9fafb;
             --bg:#0f172a;--card-bg:#1e293b;--text-primary:var(--g8);--text-secondary:var(--g6);
-            --border-color:var(--g4);--hover-bg:var(--g2);
+            --border-color:var(--g4);--hover-bg:var(--g2);--shadow-color:rgba(0,0,0,0.25);
         }
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.6;color:var(--text-primary);background:var(--bg);min-height:100vh;overflow-x:hidden;transition:var(--transition)}
         .container{max-width:1200px;margin:0 auto;padding:3rem 2rem;position:relative;z-index:1}
-        /* 顶部功能按钮组：深色模式+更新日志 */
         .top-btns{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:999;}
-        .theme-toggle,.log-btn-fixed{width:48px;height:48px;border-radius:50%;background:var(--card-bg);box-shadow:0 4px 12px rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;color:var(--text-primary);cursor:pointer;transition:var(--transition);border:1px solid var(--border-color);}
-        .theme-toggle:hover,.log-btn-fixed:hover{transform:scale(1.08);background:var(--accent);color:#fff;border-color:var(--accent);}
-        /* 导航栏 */
+        .theme-toggle,.log-btn-fixed{width:48px;height:48px;border-radius:50%;background:var(--card-bg);box-shadow:0 4px 12px var(--shadow-color);display:flex;align-items:center;justify-content:center;color:var(--text-primary);cursor:pointer;transition:var(--transition);border:1px solid var(--border-color);}
+        .theme-toggle:hover,.log-btn-fixed:hover{transform:scale(1.08);background:var(--accent);color:#ffffff;border-color:var(--accent);box-shadow:0 4px 12px rgba(59,130,246,0.3);}
         .nav{text-align:center;padding:3rem 0 4rem;position:relative;animation:fadeInDown .8s cubic-bezier(0.16,1,0.3,1)}
-        .nav::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%) scaleX(0);width:100px;height:4px;background:linear-gradient(90deg,var(--g7),var(--g5) 25%,var(--g7) 50%,var(--g5) 75%,var(--g7));border-radius:2px;box-shadow:0 2px 4px rgba(0,0,0,0.2);animation:expandWidth .6s cubic-bezier(0.16,1,0.3,1) .3s forwards}
+        .nav::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%) scaleX(0);width:100px;height:4px;background:linear-gradient(90deg,var(--g7),var(--g5) 25%,var(--g7) 50%,var(--g5) 75%,var(--g7));border-radius:2px;box-shadow:0 2px 4px var(--shadow-color);animation:expandWidth .6s cubic-bezier(0.16,1,0.3,1) .3s forwards}
         .nav h1{font-size:3rem;font-weight:800;margin-bottom:.5rem;letter-spacing:.05em;background:linear-gradient(135deg,var(--g9),var(--g7) 25%,var(--g9) 50%,var(--g7) 75%,var(--g9));background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradientShift 8s ease infinite,fadeInUp .8s cubic-bezier(0.16,1,0.3,1) .1s both}
         .nav p{font-size:1.1rem;color:var(--text-secondary);}
         @keyframes expandWidth{to{transform:translateX(-50%) scaleX(1)}}
         @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
         @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        /* 免责声明 */
-        .disclaimer{position:relative;margin:0 0 3rem;padding:2rem 2.5rem;background:var(--card-bg);border:2px solid var(--border-color);border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,0.1),0 0 0 4px var(--bg),0 0 0 5px var(--border-color);transform:rotate(-.5deg);transition:var(--transition);animation:fadeInUp .8s cubic-bezier(0.16,1,0.3,1) .4s both}
-        .disclaimer:hover{transform:rotate(0deg) scale(1.01);box-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04),0 0 0 4px var(--bg),0 0 0 5px var(--border-color)}
+        .disclaimer{position:relative;margin:0 0 3rem;padding:2rem 2.5rem;background:var(--card-bg);border:2px solid var(--border-color);border-radius:2px;box-shadow:0 1px 3px var(--shadow-color),0 0 0 4px var(--bg),0 0 0 5px var(--border-color);transform:rotate(-.5deg);transition:var(--transition);animation:fadeInUp .8s cubic-bezier(0.16,1,0.3,1) .4s both}
+        .disclaimer:hover{transform:rotate(0deg) scale(1.01);box-shadow:0 20px 25px -5px var(--shadow-color),0 10px 10px -5px rgba(0,0,0,0.04),0 0 0 4px var(--bg),0 0 0 5px var(--border-color)}
         .disclaimer-header{display:flex;align-items:baseline;gap:.75rem;margin-bottom:1rem;border-bottom:1px dashed var(--border-color);padding-bottom:.75rem}
         .disclaimer-stamp{font-family:'Courier New',monospace;font-size:.7rem;font-weight:bold;color:var(--r);border:2px solid var(--r);padding:.2rem .5rem;transform:rotate(-5deg);display:inline-block;text-transform:uppercase;letter-spacing:1px;opacity:.8;animation:stampPulse 2s ease-in-out infinite}
         @keyframes stampPulse{0%,100%{opacity:.8;transform:rotate(-5deg) scale(1)}50%{opacity:1;transform:rotate(-5deg) scale(1.05)}}
@@ -45,20 +42,19 @@
         .disclaimer:hover .disclaimer-body{border-left-color:var(--accent)}
         .disclaimer-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
         .disclaimer-note{font-size:.8rem;color:var(--text-secondary);font-style:italic}
-        .disclaimer-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;background:var(--g9);color:#fff;text-decoration:none;border-radius:4px;font-size:.85rem;font-weight:500;transition:var(--transition);box-shadow:0 4px 0 var(--ga),0 5px 15px rgba(0,0,0,0.2);cursor:pointer;border:none;}
+        .disclaimer-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;background:var(--g9);color:#ffffff;text-decoration:none;border-radius:4px;font-size:.85rem;font-weight:500;transition:var(--transition);box-shadow:0 4px 0 var(--ga),0 5px 15px var(--shadow-color);cursor:pointer;border:none;}
         .disclaimer-btn::before{content:'↓';font-size:.9rem}
-        .disclaimer-btn:hover{transform:translateY(2px);box-shadow:0 2px 0 var(--ga),0 3px 10px rgba(0,0,0,0.2);background:var(--ga)}
-        /* 产品展示 */
+        .disclaimer-btn:hover{transform:translateY(2px);box-shadow:0 2px 0 var(--ga),0 3px 10px var(--shadow-color);background:var(--ga)}
         .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2.5rem;margin-bottom:3rem}
-        .product{background:var(--card-bg);border-radius:1.5rem;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:var(--transition);border:1px solid var(--border-color);position:relative;opacity:0;animation:fadeInUp .8s cubic-bezier(0.16,1,0.3,1) forwards;cursor:pointer}
+        .product{background:var(--card-bg);border-radius:1.5rem;overflow:hidden;box-shadow:0 4px 20px var(--shadow-color);transition:var(--transition);border:1px solid var(--border-color);position:relative;opacity:0;animation:fadeInUp .8s cubic-bezier(0.16,1,0.3,1) forwards;cursor:pointer}
         .product.touching{transform:scale(0.96)!important;transition:all .08s ease!important}
         .product::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent-light));transform:scaleX(0);transition:transform .4s cubic-bezier(0.16,1,0.3,1);transform-origin:left}
-        .product:hover{transform:translateY(-8px);box-shadow:0 25px 50px -12px rgba(0,0,0,0.15);border-color:rgba(59,130,246,0.3)}
+        .product:hover{transform:translateY(-8px);box-shadow:0 25px 50px -12px var(--shadow-color);border-color:rgba(59,130,246,0.3)}
         .product:hover::before{transform:scaleX(1)}
         .product-image{width:100%;height:220px;background:var(--hover-bg);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;pointer-events:none;border-bottom:1px solid var(--border-color);}
-        .app-icon{width:80px;height:80px;border-radius:1.5rem;box-shadow:0 8px 24px rgba(0,0,0,0.15);transition:var(--transition);object-fit:cover;border:1px solid var(--border-color);}
+        .app-icon{width:80px;height:80px;border-radius:1.5rem;box-shadow:0 8px 24px var(--shadow-color);transition:var(--transition);object-fit:cover;border:1px solid var(--border-color);}
         .product:hover .app-icon{transform:scale(1.1) rotateY(10deg);box-shadow:0 20px 40px rgba(59,130,246,0.3)}
-        .version-badge{position:absolute;top:1rem;right:1rem;padding:.4rem 1rem;border-radius:9999px;font-size:.8rem;font-weight:600;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.15);backdrop-filter:blur(10px);z-index:2;border:1px solid rgba(255,255,255,0.2);}
+        .version-badge{position:absolute;top:1rem;right:1rem;padding:.4rem 1rem;border-radius:9999px;font-size:.8rem;font-weight:600;color:#ffffff;box-shadow:0 4px 12px var(--shadow-color);backdrop-filter:blur(10px);z-index:2;border:1px solid rgba(255,255,255,0.2);}
         .official{background:linear-gradient(135deg,var(--r),#dc2626)}
         .unreleased{background:linear-gradient(135deg,var(--g7),var(--g5))}
         .product-info{padding:1.75rem}
@@ -68,19 +64,17 @@
         .download-title{font-size:.8rem;color:var(--text-secondary);margin-bottom:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:.5rem}
         .download-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border-color),transparent)}
         .download-link{display:flex;justify-content:space-between;align-items:center;padding:.875rem 1rem;background:var(--hover-bg);border-radius:.75rem;text-decoration:none;color:var(--g7);font-size:.875rem;transition:var(--transition);border:1px solid var(--border-color);cursor:pointer;}
-        .download-link:hover{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;transform:translateX(4px);box-shadow:0 10px 25px rgba(59,130,246,0.3);border-color:var(--accent);}
+        .download-link:hover{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#ffffff;transform:translateX(4px);box-shadow:0 10px 25px rgba(59,130,246,0.3);border-color:var(--accent);}
         .download-info{display:flex;align-items:center;gap:.75rem;font-weight:500}
         .version{font-size:.75rem;color:var(--g6);background:var(--bg);padding:.25rem .6rem;border-radius:9999px;border:1px solid var(--border-color);}
         .download-link:hover .version{background:rgba(255,255,255,0.2);color:rgba(255,255,255,0.9);border-color:transparent;}
         .size{font-size:.75rem;color:var(--g5)}
         .disabled{cursor:not-allowed;opacity:.6;pointer-events:none}
-        .icon-placeholder{width:80px;height:80px;border-radius:1.5rem;background:linear-gradient(135deg,var(--g5),var(--g6));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.15);border:1px solid var(--border-color);}
-        /* 联系我们 */
+        .icon-placeholder{width:80px;height:80px;border-radius:1.5rem;background:linear-gradient(135deg,var(--g5),var(--g6));display:flex;align-items:center;justify-content:center;font-size:2rem;color:#ffffff;font-weight:700;box-shadow:0 8px 24px var(--shadow-color);border:1px solid var(--border-color);}
         .global-contact{margin-top:4rem;padding:2rem 0;border-top:1px solid var(--border-color);text-align:center;background:var(--hover-bg);border-radius:1.5rem;animation:fadeInUp .8s cubic-bezier(0.16,1,0.3,1) .9s both}
-        .global-contact-inner{display:inline-flex;gap:2rem;background:var(--card-bg);padding:1rem 2rem;border-radius:1rem;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:1px solid var(--border-color);}
+        .global-contact-inner{display:inline-flex;gap:2rem;background:var(--card-bg);padding:1rem 2rem;border-radius:1rem;box-shadow:0 4px 20px var(--shadow-color);border:1px solid var(--border-color);}
         .global-contact a{text-decoration:none;color:var(--text-secondary);font-size:.9rem;padding:.75rem 1.25rem;border-radius:.75rem;transition:var(--transition);display:flex;align-items:center;gap:.5rem;border:1px solid transparent;}
-        .global-contact a:hover{background:var(--accent);color:#fff;transform:translateY(-2px);border-color:var(--accent);box-shadow:0 4px 12px rgba(59,130,246,0.3);}
-        /* 页脚 */
+        .global-contact a:hover{background:var(--accent);color:#ffffff;transform:translateY(-2px);border-color:var(--accent);box-shadow:0 4px 12px rgba(59,130,246,0.3);}
         .footer{text-align:center;padding:3rem 0 2rem;font-size:.875rem;color:var(--g5);animation:fadeInUp .8s cubic-bezier(0.16,1,0.3,1) 1s both}
         .footer-card{background:linear-gradient(135deg,var(--card-bg) 0%,var(--hover-bg) 100%);border:1px solid var(--border-color);border-radius:1.5rem;padding:2rem;margin-bottom:1.5rem}
         .footer-time-section{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem}
@@ -88,16 +82,14 @@
         .runtime-display{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.9rem}
         .icp-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--text-secondary);text-decoration:none;padding:.6rem 1.25rem;border-radius:2rem;border:1px solid var(--border-color);background:var(--card-bg);transition:var(--transition);}
         .icp-link:hover{background:var(--hover-bg);color:var(--accent);border-color:var(--accent);}
-        /* 回到顶部 */
         .back-to-top{position:fixed;bottom:80px;right:20px;width:52px;height:52px;cursor:pointer;z-index:1000;opacity:0;visibility:hidden;transition:var(--transition);transform:scale(0.8)}
         .back-to-top.show{opacity:1;visibility:visible;transform:scale(1)}
         .progress-ring{position:absolute;top:0;left:0;width:100%;height:100%;transform:rotate(-90deg)}
         .progress-ring-circle{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;filter:drop-shadow(0 2px 4px rgba(59,130,246,0.3));transition:stroke-dashoffset .05s linear}
         .progress-ring-bg{fill:none;stroke:rgba(59,130,246,0.2);stroke-width:3}
-        .back-to-top-inner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;transition:var(--transition);box-shadow:0 4px 12px rgba(59,130,246,0.4);border:1px solid rgba(255,255,255,0.2);}
+        .back-to-top-inner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:1.2rem;transition:var(--transition);box-shadow:0 4px 12px rgba(59,130,246,0.4);border:1px solid rgba(255,255,255,0.2);}
         .back-to-top:hover .back-to-top-inner{transform:translate(-50%,-50%) scale(1.08);background:var(--accent-light);box-shadow:0 6px 20px rgba(59,130,246,0.5)}
         .back-to-top:active .back-to-top-inner{transform:translate(-50%,-50%) scale(0.95)}
-        /* 浏览器警告 */
         .browser-warning{position:fixed;top:0;left:0;right:0;background:linear-gradient(135deg,#fef3c7,#fde68a);border-bottom:2px solid #f59e0b;z-index:1001;transform:translateY(-100%);transition:transform .4s cubic-bezier(0.34,1.2,0.64,1)}
         [data-theme="dark"] .browser-warning{background:linear-gradient(135deg,#4338ca,#3730a3);border-bottom:2px solid #f59e0b}
         [data-theme="dark"] .browser-warning span{color:#fef3c7}
@@ -108,12 +100,11 @@
         .warning-content span{flex:1;font-size:.9rem;color:#92400e}
         .warning-close{background:rgba(0,0,0,0.1);border:none;font-size:1.5rem;cursor:pointer;color:#92400e;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;border:1px solid transparent;}
         .warning-close:hover{background:rgba(0,0,0,0.2);transform:scale(1.1);border-color:rgba(0,0,0,0.2);}
-        /* 赞赏按钮+原版弹窗样式 */
-        .reward-btn{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;border:none;padding:12px 20px;border-radius:40px;font-size:.95rem;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(244,63,94,0.3);transition:var(--transition);z-index:1000;display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,0.2);}
+        .reward-btn{position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#f43f5e,#e11d48);color:#ffffff;border:none;padding:12px 20px;border-radius:40px;font-size:.95rem;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(244,63,94,0.3);transition:var(--transition);z-index:1000;display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,0.2);}
         .reward-btn:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 8px 24px rgba(244,63,94,0.5);background:linear-gradient(135deg,#e11d48,#c0183e);}
         .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:2000;align-items:center;justify-content:center}
         .modal.show{display:flex}
-        .modal-content{background:var(--card-bg);border-radius:12px;padding:24px;width:90%;max-width:420px;text-align:center;position:relative;animation:modalPop .3s cubic-bezier(0.34,1.56,0.64,1);border:1px solid var(--border-color);box-shadow:0 10px 30px rgba(0,0,0,0.2);}
+        .modal-content{background:var(--card-bg);border-radius:12px;padding:24px;width:90%;max-width:420px;text-align:center;position:relative;animation:modalPop .3s cubic-bezier(0.34,1.56,0.64,1);border:1px solid var(--border-color);box-shadow:0 10px 30px var(--shadow-color);}
         @keyframes modalPop{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
         .modal-close{position:absolute;top:12px;right:16px;font-size:20px;cursor:pointer;color:var(--g5);transition:color .2s;line-height:1;}
         .modal-close:hover{color:var(--text-primary)}
@@ -122,16 +113,15 @@
         .modal-content p{font-size:14px;color:var(--text-secondary);margin-bottom:24px;line-height:1.5;}
         .qr-container{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:20px;}
         .qr-item{text-align:center;}
-        .qr-item img{width:120px;height:120px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);border:1px solid var(--border-color);}
+        .qr-item img{width:120px;height:120px;border-radius:8px;box-shadow:0 4px 12px var(--shadow-color);border:1px solid var(--border-color);}
         .qr-label{font-size:14px;font-weight:600;color:var(--ga);margin-top:8px;}
         .qr-note{font-size:12px;color:var(--g5);margin-top:4px;}
-        /* 更新日志弹窗（样式扩展，复用modal基础类） */
         #update-log-modal .modal-content{max-width:650px;max-height:80vh;overflow-y:auto;padding:24px;text-align:left;border-radius:16px;}
         #update-log-modal .modal-content h3{font-size:20px;margin-bottom:20px;justify-content:flex-start;color:var(--ga);}
         #update-log-modal .modal-content h3 i{color:var(--accent);}
         .latest-log-card{padding:16px;background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(59,130,246,0.05));border-radius:8px;border-left:4px solid var(--accent);margin-bottom:16px;border:1px solid rgba(59,130,246,0.1);}
         .log-toggle-btn{display:flex;align-items:center;gap:8px;margin:0 auto 0 0;padding:8px 16px;background:var(--hover-bg);border:none;border-radius:6px;color:var(--text-primary);cursor:pointer;transition:var(--transition);font-size:14px;border:1px solid var(--border-color);}
-        .log-toggle-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+        .log-toggle-btn:hover{background:var(--accent);color:#ffffff;border-color:var(--accent);}
         .history-log-wrap{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);}
         .history-log-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px dashed var(--border-color);}
         .history-log-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
@@ -141,7 +131,6 @@
         .log-content{padding-left:20px;}
         .log-content li{color:var(--text-secondary);font-size:14px;line-height:1.8;margin-bottom:4px;}
         .log-tip{font-size:12px;color:var(--g5);text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color);}
-        /* 媒体查询-移动端适配 */
         @media(max-width:640px){
             .container{padding:2rem 1rem}
             .top-btns{top:15px;right:15px;gap:8px;}
@@ -161,7 +150,6 @@
     </style>
 </head>
 <body>
-<!-- 顶部功能按钮：深色模式+更新日志（常驻手动查看） -->
 <div class="top-btns">
     <div class="theme-toggle" id="theme-toggle">
         <i class="fas fa-moon"></i>
@@ -170,7 +158,6 @@
         <i class="fas fa-history"></i>
     </div>
 </div>
-
 <div class="container">
     <div class="nav">
         <h1>矩阵方块</h1>
@@ -190,8 +177,6 @@
         <div class="copyright" id="copyright-container"></div>
     </div>
 </div>
-
-<!-- 回到顶部 -->
 <div id="back-to-top" class="back-to-top">
     <svg class="progress-ring" width="52" height="52" viewBox="0 0 52 52">
         <circle class="progress-ring-bg" cx="26" cy="26" r="23" fill="none" stroke="rgba(59,130,246,0.2)" stroke-width="3"/>
@@ -199,8 +184,6 @@
     </svg>
     <div class="back-to-top-inner"><i class="fas fa-arrow-up"></i></div>
 </div>
-
-<!-- 浏览器警告 -->
 <div id="browser-warning" class="browser-warning">
     <div class="warning-content">
         <i class="fas fa-exclamation-triangle"></i>
@@ -208,8 +191,6 @@
         <button id="close-warning" class="warning-close">&times;</button>
     </div>
 </div>
-
-<!-- 赞赏按钮+原版样式弹窗 -->
 <button id="reward-btn" class="reward-btn"><i class="fas fa-heart"></i> 赞赏支持</button>
 <div id="reward-modal" class="modal">
     <div class="modal-content">
@@ -230,15 +211,11 @@
         </div>
     </div>
 </div>
-
-<!-- 更新日志弹窗（复用modal类，独立样式） -->
 <div id="update-log-modal" class="modal">
     <div class="modal-content">
         <span class="modal-close update-log-close">&times;</span>
         <h3><i class="fas fa-history"></i> 版本更新日志</h3>
-        <!-- 最新版本日志 -->
         <div id="latest-log-content" class="latest-log-card"></div>
-        <!-- 往期更新折叠 -->
         <button class="log-toggle-btn" id="log-toggle-btn">
             <i class="fas fa-chevron-down"></i>
             <span>查看往期更新</span>
@@ -249,17 +226,14 @@
         <p class="log-tip">本次更新内容已自动记录，后续打开将不再重复提示</p>
     </div>
 </div>
-
 <script>
-// 站点基础配置
 const siteStartTime = new Date('2026-01-23T17:00:00').getTime();
-// 全局DOM对象
 const updateLogModal = document.getElementById('update-log-modal');
 const historyLogWrap = document.getElementById('history-log-wrap');
 const logToggleBtn = document.getElementById('log-toggle-btn');
 const logBtnFixed = document.getElementById('log-btn-fixed');
+let logData = null;
 
-// 1. 时间/运行时长更新
 function updateRuntime() {
     const now = Date.now(), diff = now - siteStartTime;
     document.getElementById('site-runtime').innerText = `${Math.floor(diff/864e5)}天${Math.floor(diff%864e5/36e5)}小时${Math.floor(diff%36e5/6e4)}分${Math.floor(diff%6e4/1e3)}秒`;
@@ -273,7 +247,6 @@ setInterval(updateClock,1e3);
 updateRuntime();
 updateClock();
 
-// 2. 点击延迟处理
 function handleClick(el,e) {
     e.preventDefault();
     const href = el.getAttribute('href'), delay = parseInt(el.getAttribute('data-delay'))||800;
@@ -289,13 +262,10 @@ function handleClick(el,e) {
 }
 window.handleDelayedClick = handleClick;
 
-// 3. 加载产品/站点数据
 async function loadData() {
     try {
         const r = await fetch('./data.json?v='+Date.now()), d = await r.json();
-        // 渲染免责声明
         document.getElementById('disclaimer-container').innerHTML = `<div class="disclaimer"><div class="disclaimer-content"><div class="disclaimer-header"><span class="disclaimer-stamp">IMPORTANT</span><span class="disclaimer-title">${d.disclaimer.title}</span></div><div class="disclaimer-body">${d.disclaimer.body}</div><div class="disclaimer-footer"><span class="disclaimer-note">* 文件大小：${d.disclaimer.fileSize}</span><a href="${d.disclaimer.fileUrl}" class="disclaimer-btn" data-delay="800" onclick="return handleDelayedClick(this, event);">下载声明文件</a></div></div></div>`;
-        // 渲染产品
         const pc = document.getElementById('products-container');
         pc.innerHTML = '';
         d.products.forEach((p,i) => {
@@ -309,7 +279,6 @@ async function loadData() {
             div.innerHTML = `<div class="product-image">${iconHtml}<span class="version-badge ${badgeClass}">${p.badgeText}</span></div><div class="product-info"><h3 class="product-name">${p.name}</h3><p class="product-desc">${p.desc}</p><div class="download-section"><div class="download-title">下载</div>${downloadHtml}</div></div>`;
             pc.appendChild(div);
         });
-        // 产品触摸反馈
         document.querySelectorAll('[data-touchable]').forEach(el => {
             el.addEventListener('touchstart',()=>{el.classList.add('touching')});
             el.addEventListener('touchend',()=>{setTimeout(()=>el.classList.remove('touching'),50)});
@@ -318,12 +287,10 @@ async function loadData() {
             el.addEventListener('mouseup',()=>{el.classList.remove('touching')});
             el.addEventListener('mouseleave',()=>{el.classList.remove('touching')});
         });
-        // 渲染联系我们
         const cc = document.getElementById('contact-container');
         let links = '';
         d.contacts.forEach(c => {links += `<a href="${c.url}" data-delay="800" onclick="return handleDelayedClick(this, event);"><span class="contact-icon"><i class="fas fa-${c.icon}"></i></span>${c.name}</a>`});
         cc.innerHTML = `<div class="global-contact-inner">${links}</div>`;
-        // 渲染ICP/版权
         document.getElementById('icp-container').innerHTML = `<a href="${d.icpLink}" target="_blank" class="icp-link"><i class="fas fa-shield-alt"></i>${d.icp}</a>`;
         document.getElementById('copyright-container').innerHTML = `<p>${d.copyright}</p>`;
     } catch (e) {
@@ -332,16 +299,13 @@ async function loadData() {
     }
 }
 
-// 4. 深色模式切换（优化适配，自动记忆）
 const themeToggle = document.getElementById('theme-toggle');
 const html = document.documentElement;
-// 初始化主题
 const initTheme = () => {
     const savedTheme = localStorage.getItem('siteTheme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     html.setAttribute('data-theme', savedTheme);
     themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 };
-// 切换主题
 themeToggle.addEventListener('click', () => {
     const currentTheme = html.getAttribute('data-theme') || 'light';
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -351,26 +315,18 @@ themeToggle.addEventListener('click', () => {
 });
 initTheme();
 
-// 5. 更新日志核心逻辑：加载+渲染+折叠+手动触发
-let logData = null; // 缓存日志数据，避免重复请求
 async function loadUpdateLog(showModal = false) {
     try {
-        // 缓存数据，仅首次请求
         if (!logData) {
             const res = await fetch('./update-log.json?v=' + Date.now());
             logData = await res.json();
         }
         const latestVersion = logData.latestVersion;
         const localVersion = localStorage.getItem('updateLogVersion');
-        
-        // 渲染日志（无论是否弹窗，先渲染）
         renderLatestLog(logData.logs[0]);
         renderHistoryLog(logData.logs.slice(1));
-
-        // 版本对比：首次/更新 或 手动点击，显示弹窗
-        if (showModal || !localVersion || localVersion !== latestVersion) {
+        if ((!localVersion || localVersion !== latestVersion) || showModal) {
             updateLogModal.classList.add('show');
-            // 手动点击时，记录版本（避免重复弹窗）
             if (showModal) localStorage.setItem('updateLogVersion', latestVersion);
         }
     } catch (e) {
@@ -378,7 +334,6 @@ async function loadUpdateLog(showModal = false) {
         document.getElementById('latest-log-content').innerHTML = `<p style="color:var(--r);padding:1rem;text-align:center;">更新日志加载失败，请检查 update-log.json 文件</p>`;
     }
 }
-// 渲染最新日志
 function renderLatestLog(latestLog) {
     const container = document.getElementById('latest-log-content');
     container.innerHTML = `
@@ -391,7 +346,6 @@ function renderLatestLog(latestLog) {
         </ul>
     `;
 }
-// 渲染历史日志
 function renderHistoryLog(historyLogs) {
     const container = document.getElementById('history-log-content');
     if (historyLogs.length === 0) {
@@ -414,7 +368,6 @@ function renderHistoryLog(historyLogs) {
     });
     container.innerHTML = html;
 }
-// 往期更新折叠切换
 logToggleBtn.onclick = () => {
     const isShow = historyLogWrap.style.display !== 'none';
     historyLogWrap.style.display = isShow ? 'none' : 'block';
@@ -422,9 +375,7 @@ logToggleBtn.onclick = () => {
         ? '<i class="fas fa-chevron-down"></i><span>查看往期更新</span>'
         : '<i class="fas fa-chevron-up"></i><span>收起往期更新</span>';
 };
-// 常驻按钮手动触发更新日志
 logBtnFixed.onclick = () => loadUpdateLog(true);
-// 关闭更新日志弹窗
 function closeUpdateLog() {
     updateLogModal.classList.remove('show');
     localStorage.setItem('updateLogVersion', logData?.latestVersion || '');
@@ -434,7 +385,6 @@ updateLogModal.onclick = (e) => {
     if (e.target === updateLogModal) closeUpdateLog();
 };
 
-// 6. 浏览器警告
 (function() {
     const ua = navigator.userAgent.toLowerCase();
     const badBrowsers = ['baidu', 'ucbrowser', 'qqbrowser', 'sogou', '360browser'];
@@ -450,17 +400,14 @@ updateLogModal.onclick = (e) => {
     };
 })();
 
-// 7. 赞赏弹窗（原版样式，独立逻辑）
 const rewardBtn = document.getElementById('reward-btn');
 const rewardModal = document.getElementById('reward-modal');
 const rewardClose = document.querySelector('#reward-modal .modal-close');
-// 打开/关闭赞赏弹窗
 rewardBtn.onclick = () => rewardModal.classList.add('show');
 rewardClose.onclick = () => rewardModal.classList.remove('show');
 rewardModal.onclick = (e) => {
     if (e.target === rewardModal) rewardModal.classList.remove('show');
 };
-// 所有弹窗ESC关闭
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         rewardModal.classList.remove('show');
@@ -468,25 +415,20 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// 8. 回到顶部
 const backBtn = document.getElementById('back-to-top');
 const circle = document.querySelector('.progress-ring-circle');
 const r = 23, c = 2 * Math.PI * r;
 circle.style.strokeDasharray = c;
 circle.style.strokeDashoffset = c;
-// 更新滚动进度
 function updateScroll() {
     const t = window.scrollY || document.documentElement.scrollTop;
     const h = document.documentElement.scrollHeight - window.innerHeight;
-    // 显示/隐藏回到顶部
     t > 300 ? backBtn.classList.add('show') : backBtn.classList.remove('show');
-    // 更新进度环
     if (h > 0) {
         const p = t / h;
         circle.style.strokeDashoffset = c * (1 - p);
     }
 }
-// 平滑回到顶部
 backBtn.onclick = () => {
     const s = window.scrollY;
     const d = 0 - s;
@@ -511,10 +453,9 @@ window.addEventListener('scroll', updateScroll);
 window.addEventListener('resize', updateScroll);
 updateScroll();
 
-// 9. 页面加载完成执行
 window.addEventListener('load', () => {
     loadData();
-    loadUpdateLog(); // 自动检测版本，按需弹窗
+    loadUpdateLog();
 });
 </script>
 </body>
