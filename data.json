@@ -50,15 +50,15 @@
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iMDSY3h1l3ef&pwd=5jvm",
+        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iD1MC3l57eij&pwd=bbk3",
         "platform": "Android",
         "version": "v1.0",
         "size": "3.66 MB"
       }
     },
     {
-      "name": "命令编辑器",
-      "desc": "可一键复制粘贴,快捷编辑命令",
+      "name": "--",
+      "desc": "--",
       "icon": null,
       "badge": "unreleased",
       "badgeText": "未发布",
