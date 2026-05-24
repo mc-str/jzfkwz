@@ -70,14 +70,24 @@
       }
     }
   ],
-  "jumpCard": {
-    "name": "MC指令音乐站",
-    "desc": "提供丰富的Minecraft指令音乐资源下载，支持多种格式，每日更新精选歌单。",
-    "icon": "music",
-    "tag": "官方站点",
-    "url": "https://example.com",
-    "enabled": true
-  },
+"jumpCards": [
+    {
+      "name": "MC指令音乐站",
+      "desc": "提供丰富的Minecraft指令音乐资源下载，支持多种格式，每日更新精选歌单。",
+      "icon": "music",
+      "tag": "官方站点",
+      "url": "https://mcnote.cc.cd",
+      "enabled": true
+    },
+    {
+  "name": "MC头像制作",
+  "desc": "上传照片，添加MC风格装饰图标，自由调整位置、大小、旋转和透明度，一键导出专属头像。",
+  "icon": "user-astronaut",
+  "tag": "官方网站",
+  "url": "https://pic-1bj.pages.dev",
+  "enabled": true
+}
+  ],
   "disclaimer": {
     "title": "软件用户许可及免责声明",
     "body": "下载或使用软件即视为同意本声明。请仔细阅读条款内容，了解软件使用规范及相关责任界定。",
