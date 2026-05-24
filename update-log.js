@@ -9,8 +9,6 @@ window.logData = {
         "修复了一些已知bug"
       ]
     },
-  "latestVersion": "v1.3.0",
-  "logs": [
     {
       "version": "v1.3.0",
       "date": "2026-04-06",
