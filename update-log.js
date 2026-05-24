@@ -1,10 +1,21 @@
 window.logData = {
+  "latestVersion": "v1.4.0",
+  "logs": [
+    {
+      "version": "v1.4.0",
+      "date": "2026-05-24",
+      "content": [
+        "新增跳转网站和新卡片样式",
+        "修复了一些已知bug"
+      ]
+    },
   "latestVersion": "v1.3.0",
   "logs": [
     {
       "version": "v1.3.0",
       "date": "2026-04-06",
       "content": [
+        "新增深色模式切换功能，自动记忆用户主题偏好",
         "新增独立更新日志弹窗，支持往期更新折叠/展开"
       ]
     },
