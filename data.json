@@ -1,8 +1,22 @@
 {
   "products": [
     {
+      "name": "MC指令音乐站",
+      "desc": "提供丰富的Minecraft指令音乐资源下载，支持多种格式，每日更新精选歌单。",
+      "icon": "https://s41.ax1x.com/2026/03/20/penMoUx.png",
+      "badge": "official",
+      "badgeText": "官方站点",
+      "download": {
+        "enabled": true,
+        "url": "https://example.com",
+        "platform": "Web",
+        "version": "v1.0",
+        "size": "-- MB"
+      }
+    },
+    {
       "name": "雪球T显生成器",
-      "desc": "完成雪球菜单的静态显示调整后，通过一键操作快速生成静态T显，并实时预览该菜单组件的效果。",
+      "desc": "编辑后可一键生成静态雪球菜单显示部分。",
       "icon": "https://s41.ax1x.com/2026/03/20/penMoUx.png",
       "badge": "official",
       "badgeText": "正式版",
@@ -12,61 +26,6 @@
         "platform": "Android",
         "version": "v1.5",
         "size": "6.02 MB"
-      }
-    },
-    {
-      "name": "动态菜单生成器",
-      "desc": "一站式设计快捷编辑,自动生成全部动态雪球菜单指令",
-      "icon": "https://s41.ax1x.com/2026/03/20/penl3ff.png",
-      "badge": "official",
-      "badgeText": "正式版",
-      "download": {
-        "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iMDSY3h1l3ef&pwd=5jvm",
-        "platform": "Android",
-        "version": "v1.0",
-        "size": "4.84 MB"
-      }
-    },
-    {
-      "name": "T显编译器",
-      "desc": "可快捷编辑 titleraw/tellraw 同时也可拆分纠错 titleraw/tellraw 便于修改。",
-      "icon": "https://s41.ax1x.com/2026/03/20/penlGp8.png",
-      "badge": "official",
-      "badgeText": "正式版",
-      "download": {
-        "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iLG6W3hfumve&pwd=2p30",
-        "platform": "Android",
-        "version": "v1.0",
-        "size": "4.30 MB"
-      }
-    },
-    {
-      "name": "选区助手",
-      "desc": "输入x,y,z一键计算dx,dy,dz，便捷添加目标选择器",
-      "icon": "https://s41.ax1x.com/2026/03/21/penvh6g.png",
-      "badge": "official",
-      "badgeText": "正式版",
-      "download": {
-        "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iD1MC3l57eij&pwd=bbk3",
-        "platform": "Android",
-        "version": "v1.0",
-        "size": "3.66 MB"
-      }
-    },
-    {
-      "name": "--",
-      "desc": "--",
-      "icon": null,
-      "badge": "unreleased",
-      "badgeText": "未发布",
-      "download": {
-        "enabled": false,
-        "platform": "Android",
-        "version": "敬请期待",
-        "size": "-- MB"
       }
     }
   ],
