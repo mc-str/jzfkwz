@@ -31,14 +31,14 @@
     {
       "name": "T显编译器",
       "desc": "可快捷编辑 titleraw/tellraw 同时也可拆分纠错 titleraw/tellraw 便于修改。",
-      "icon": "https://s41.ax1x.com/2026/03/20/penlGp8.png",
+      "icon": "https://s41.ax1x.com/2026/06/20/pmG0SFP.jpg",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
         "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iLG6W3hfumve&pwd=2p30",
         "platform": "Android",
-        "version": "v1.0",
+        "version": "v1.1",
         "size": "4.30 MB"
       }
     },
