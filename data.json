@@ -90,8 +90,8 @@
     {
       "name": "网站开源",
       "desc": "访问网站的开源项目仓库",
-      "icon": "git",
-      "tag": "GITUHB",
+      "icon": "code-branch",
+      "tag": "GITHUB",
       "url": "https://github.com/mc-str/jzfkwz",
       "enabled": true
     }
