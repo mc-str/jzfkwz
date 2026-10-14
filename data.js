@@ -70,8 +70,47 @@ window.siteData = {
       }
     },
     {
-      "name": "命令树",
-      "desc": "可视化编辑命令，便捷操作",
+      "name": "粒子模拟器",
+      "desc": "3D 粒子可视化，方便调试效果。",
+      "icon": null,
+      "badge": "unreleased",
+      "badgeText": "未发布",
+      "download": {
+        "enabled": false,
+        "platform": "Android",
+        "version": "敬请期待",
+        "size": "-- MB"
+      }
+    },
+    {
+      "name": "进度条生成器",
+      "desc": "自定义进度条的可视化工具，用于快速调整进度条样式，并实时预览最终效果。",
+      "icon": null,
+      "badge": "unreleased",
+      "badgeText": "未发布",
+      "download": {
+        "enabled": false,
+        "platform": "Android",
+        "version": "敬请期待",
+        "size": "-- MB"
+      }
+    },
+    {
+      "name": "Camera编辑器",
+      "desc": "3D 场景与动画相机可视化编辑工具，用于快速设计运镜，并实时预览最终画面。",
+      "icon": null,
+      "badge": "unreleased",
+      "badgeText": "未发布",
+      "download": {
+        "enabled": false,
+        "platform": "Android",
+        "version": "敬请期待",
+        "size": "-- MB"
+      }
+    },
+    {
+      "name": "命令积木",
+      "desc": "积木化命令编辑方式，将命令拆解为可组合模块，降低理解与操作门槛，便于新手快速上手。",
       "icon": null,
       "badge": "unreleased",
       "badgeText": "未发布",
