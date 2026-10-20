@@ -70,19 +70,6 @@ window.siteData = {
       }
     },
     {
-      "name": "粒子模拟器",
-      "desc": "3D 粒子可视化，方便调试效果。",
-      "icon": null,
-      "badge": "unreleased",
-      "badgeText": "未发布",
-      "download": {
-        "enabled": false,
-        "platform": "Android",
-        "version": "敬请期待",
-        "size": "-- MB"
-      }
-    },
-{
       "name": "进度条生成器",
       "desc": "自定义进度条的可视化工具，用于快速调整进度条样式，并实时预览最终效果。",
       "icon": "https://s41.ax1x.com/2026/10/20/pn07pLD.jpg",
@@ -93,9 +80,22 @@ window.siteData = {
         "url": "https://lz.qaiu.top/parser?url=https://share.feijipan.com/s/4FxZuADV",
         "platform": "Android",
         "version": "v1.0",
-        "size": "3.66 MB",
+        "size": "17.92 MB",
         "mode": "auto",
         "filename": "选区助手_1.0.apk"
+      }
+    },
+    {
+      "name": "粒子模拟器",
+      "desc": "3D 粒子可视化，方便调试效果。",
+      "icon": null,
+      "badge": "unreleased",
+      "badgeText": "未发布",
+      "download": {
+        "enabled": false,
+        "platform": "Android",
+        "version": "敬请期待",
+        "size": "-- MB"
       }
     },
     {
