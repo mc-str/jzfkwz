@@ -72,12 +72,12 @@ window.siteData = {
     {
       "name": "进度条生成器",
       "desc": "自定义进度条的可视化工具，用于快速调整进度条样式，并实时预览最终效果。",
-      "icon": "https://s41.ax1x.com/2026/10/20/pn07pLD.jpg",
+      "icon": "https://pic.j3.ink/a5.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://share.feijipan.com/s/4FxZuADV",
+        "url": "https://pic.j3.ink/进度条生成器_1.0.0.apk",
         "platform": "Android",
         "version": "v1.0",
         "size": "17.92 MB",
