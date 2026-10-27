@@ -8,15 +8,15 @@ window.siteData = {
     {
       "name": "雪球T显生成器",
       "desc": "编辑后可一键生成静态雪球菜单显示部分。",
-      "icon": "https://s41.ax1x.com/2026/03/20/penMoUx.png",
+      "icon": "https://pic.j3.ink/a1",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iPZ283gfknib&pwd=aqgi",
+        "url": "https://pic.j3.ink/雪球T显生成器_1.5.spk",
         "platform": "Android",
         "version": "v1.5",
-        "size": "6.02 MB",
+        "size": "6.31 MB",
         "mode": "auto",
         "filename": "雪球T显生成器_1.5.apk"
       }
@@ -24,15 +24,15 @@ window.siteData = {
     {
       "name": "动态菜单生成器",
       "desc": "一站式设计快捷编辑,自动生成全部动态雪球菜单指令",
-      "icon": "https://s41.ax1x.com/2026/03/20/penl3ff.png",
+      "icon": "https://pic.j3.ink/a2",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://wwp.lanzoup.com/iMDSY3h1l3ef&pwd=5jvm",
+        "url": "https://pic.j3.ink/动态菜单生成器_1.0.apk",
         "platform": "Android",
         "version": "v1.0",
-        "size": "4.84 MB",
+        "size": "5.08 MB",
         "mode": "auto",
         "filename": "动态菜单生成器_1.0.apk"
       }
@@ -40,12 +40,12 @@ window.siteData = {
     {
       "name": "T显编译器",
       "desc": "可快捷编辑 titleraw/tellraw 同时也可拆分纠错 titleraw/tellraw 便于修改。",
-      "icon": "https://s41.ax1x.com/2026/06/20/pmG0SFP.jpg",
+      "icon": "https://pic.j3.ink/a3",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://share.feijipan.com/s/Se5CQIy4",
+        "url": "https://pic.j3.ink/T显编译器_1.2.apk",
         "platform": "Android",
         "version": "v1.2",
         "size": "23.86 MB",
@@ -56,15 +56,15 @@ window.siteData = {
     {
       "name": "选区助手",
       "desc": "输入x,y,z一键计算dx,dy,dz，便捷添加目标选择器",
-      "icon": "https://s41.ax1x.com/2026/03/21/penvh6g.png",
+      "icon": "https://pic.j3.ink/a4",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://lz.qaiu.top/parser?url=https://share.feijipan.com/s/sM8aLctV",
+        "url": "https://pic.j3.ink/选区助手_1.0.apk",
         "platform": "Android",
         "version": "v1.0",
-        "size": "3.66 MB",
+        "size": "3.82 MB",
         "mode": "auto",
         "filename": "选区助手_1.0.apk"
       }
@@ -77,7 +77,7 @@ window.siteData = {
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://pic.j3.ink/进度条生成器_1.0.0.apk",
+        "url": "https://pic.j3.ink/进度条生成器_1.0.apk",
         "platform": "Android",
         "version": "v1.0",
         "size": "17.92 MB",
