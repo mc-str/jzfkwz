@@ -8,7 +8,7 @@ window.siteData = {
     {
       "name": "雪球T显生成器",
       "desc": "编辑后可一键生成静态雪球菜单显示部分。",
-      "icon": "https://pic.j3.ink/a1",
+      "icon": "https://pic.j3.ink/a1.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
@@ -24,7 +24,7 @@ window.siteData = {
     {
       "name": "动态菜单生成器",
       "desc": "一站式设计快捷编辑,自动生成全部动态雪球菜单指令",
-      "icon": "https://pic.j3.ink/a2",
+      "icon": "https://pic.j3.ink/a2.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
@@ -40,7 +40,7 @@ window.siteData = {
     {
       "name": "T显编译器",
       "desc": "可快捷编辑 titleraw/tellraw 同时也可拆分纠错 titleraw/tellraw 便于修改。",
-      "icon": "https://pic.j3.ink/a3",
+      "icon": "https://pic.j3.ink/a3.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
@@ -56,7 +56,7 @@ window.siteData = {
     {
       "name": "选区助手",
       "desc": "输入x,y,z一键计算dx,dy,dz，便捷添加目标选择器",
-      "icon": "https://pic.j3.ink/a4",
+      "icon": "https://pic.j3.ink/a4.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {

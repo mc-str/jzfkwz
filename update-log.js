@@ -1,6 +1,14 @@
 window.logData = {
   "latestVersion": "v2.0.0",
   "logs": [
+  {
+      "version": "v2.0.1",
+      "date": "2026-10-27",
+      "content": [
+        "新增内部流式链接更改",
+        "图标显示链接更改"
+      ]
+    },
     {
       "version": "v2.0.0",
       "date": "2026-08-30",
