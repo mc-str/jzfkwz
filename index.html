@@ -957,7 +957,28 @@
             color: var(--muted);
             font-size: 0.8rem;
             line-height: 1.75;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
+        .log-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.1rem 0.55rem;
+            font-size: 0.58rem;
+            border-radius: 10px;
+            background: rgba(120, 120, 130, 0.06);
+            color: var(--muted-2);
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            line-height: 1.5;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+        .log-tag--feature { background: rgba(74, 144, 226, 0.07); color: #4a90d9; }
+        .log-tag--ux      { background: rgba(80, 180, 130, 0.07); color: #50b482; }
+        .log-tag--patch   { background: rgba(160, 140, 110, 0.07); color: #a08c6e; }
         .log-toggle-btn {
             display: flex;
             align-items: center;
@@ -1704,9 +1725,106 @@
                 animation: none;
             }
         }
+        .cache-toast {
+            position: fixed;
+            left: 50%;
+            top: 78px;
+            transform: translateX(-50%) translateY(-8px);
+            padding: 0.42rem 0.95rem;
+            background: var(--glass-bg-soft);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--float-border);
+            box-shadow: var(--shadow-float);
+            border-radius: var(--r-pill);
+            font-size: 0.76rem;
+            color: var(--ink-2);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            transition: opacity .35s var(--curve), transform .35s var(--curve), visibility .35s var(--curve);
+        }
+        .cache-toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        @media (max-width:640px) {
+            .cache-toast { top: 64px; font-size: 0.74rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .cache-toast { transition: none; }
+        }
+        .loader-mask {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity .45s ease;
+        }
+        .loader-mask.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader-core {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .loader-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 18px);
+            grid-template-rows: repeat(2, 18px);
+            gap: 10px;
+        }
+        .loader-cell {
+            background: var(--ink);
+            animation: loaderMorph 1.6s cubic-bezier(.4, 0, .2, 1) infinite;
+        }
+        .loader-cell:nth-child(1) { background: #2fc4de; }
+        .loader-cell:nth-child(2) { background: #f2a93b; animation-delay: .12s; }
+        .loader-cell:nth-child(3) { background: #a9a2f0; animation-delay: .24s; }
+        .loader-cell:nth-child(4) { background: #8b7fe8; animation-delay: .36s; }
+        @keyframes loaderMorph {
+            0%   { border-radius: 2px; transform: scale(1); }
+            35%  { border-radius: 50%; transform: scale(.72); }
+            70%  { border-radius: 50%; transform: scale(.72); }
+            100% { border-radius: 2px; transform: scale(1); }
+        }
+        .loader-status {
+            margin-top: 40px;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: baseline;
+            min-height: 1.4em;
+            transition: opacity .35s ease;
+        }
+        .loader-status.hide { opacity: 0; }
+        @media (prefers-reduced-motion: reduce) {
+            .loader-cell { animation: none; }
+            .loader-mask, .loader-status { transition: none; }
+        }
     </style>
 </head>
 <body>
+    <div class="loader-mask" id="loader" aria-hidden="true">
+        <div class="loader-core">
+            <div class="loader-grid">
+                <div class="loader-cell"></div><div class="loader-cell"></div>
+                <div class="loader-cell"></div><div class="loader-cell"></div>
+            </div>
+            <div class="loader-status" id="status"><span id="label">正在检查更新</span><span id="dot"></span></div>
+        </div>
+    </div>
     <div class="log-btn-fixed" id="lbf" title="查看更新日志"><i class="fas fa-history"></i><span class="dot" id="rd"></span></div>
     <div class="theme-switch" id="themeSwitch">
         <button class="theme-btn" id="themeBtn" title="切换主题配色" aria-label="切换主题配色"><i class="fas fa-palette"></i><span class="theme-cur"></span></button>
@@ -1795,8 +1913,9 @@
         <div class="update-tips-content" id="utc-content"></div>
         <div class="update-tips-btns"><button class="update-tips-btn update-tips-btn-later" id="utbl">稍后查看</button><button class="update-tips-btn update-tips-btn-detail" id="utbd">查看详情</button></div>
     </div>
-    <script src="data.js"></script>
-    <script src="update-log.js"></script>
+    <div class="cache-toast" id="cacheToast" role="status" aria-live="polite">已清理缓存</div>
+    <script src="data.js" defer></script>
+    <script src="update-log.js" defer></script>
     <script>
         const $ = id => document.getElementById(id);
         const SITE_START = new Date("2026-01-23T17:00:00").getTime();
@@ -1979,13 +2098,20 @@
             function renderLog() {
                 if (!window.logData) return;
                 const { logs } = window.logData;
+
+                const itemHtml = (item) =>
+                    `<li>${item.text}<span class="log-tag log-tag--${item.tag === '功能更新' ? 'feature' : item.tag === '体验优化' ? 'ux' : 'patch'}">${item.tag}</span></li>`;
+                const listHtml = (arr) => arr.map(itemHtml).join('');
+
                 lL.innerHTML =
-                    `<div class="log-version"><span class="v">${logs[0].version}<small>最新</small></span><span class="d">${logs[0].date}</span></div><ul class="log-content">${logs[0].content.map(i => `<li>${i}</li>`).join("")}</ul>`;
+                    `<div class="log-version"><span class="v">${logs[0].version}<small>最新</small></span><span class="d">${logs[0].date}</span></div><ul class="log-content">${listHtml(logs[0].content)}</ul>`;
+
                 if (logs.length <= 1) { hL.innerHTML = '<p class="log-tip">暂无往期更新</p>';
                     tB.style.display = "none"; return; }
                 hL.innerHTML = '<div class="history-inner">' + logs.slice(1).map(i =>
-                    `<div class="log-history-item"><div class="log-version"><span class="v">${i.version}</span><span class="d">${i.date}</span></div><ul class="log-content">${i.content.map(it => `<li>${it}</li>`).join("")}</ul></div>`
+                    `<div class="log-history-item"><div class="log-version"><span class="v">${i.version}</span><span class="d">${i.date}</span></div><ul class="log-content">${listHtml(i.content)}</ul></div>`
                     ).join("") + "</div>";
+
                 if (historyOpen) { hL.classList.add("show");
                     tB.innerHTML = '<i class="fas fa-chevron-up"></i> 收起往期更新'; }
             }
@@ -2016,12 +2142,12 @@
                 if (!saved || saved !== window.logData.latestVersion) {
                     dot.classList.add("show");
                     setTimeout(() => { tipsV.textContent = window.logData.latestVersion;
-                        tipsC.textContent = window.logData.logs[0].content.join("；");
+                        tipsC.textContent = window.logData.logs[0].content.map(i => `· ${i.text} ${i.tag}`).join('；');
                         tips.classList.add("show"); }, 900);
                 }
             });
         })();
-        loadData();
+        document.addEventListener("DOMContentLoaded", () => loadData(), { once: true });
         setInterval(updateRuntime, 30000);
         const DISCLAIMER_KEY = "dlDisclaimerAccepted";
 
@@ -2562,6 +2688,85 @@
             document.addEventListener("click", () => setOpen(false));
             panel.addEventListener("click", e => e.stopPropagation());
             document.addEventListener("keydown", e => { if (e.key === "Escape") setOpen(false); });
+        })();
+        (function() {
+            const loaderEl = $("loader"),
+                statusEl = $("status"),
+                labelEl = $("label"),
+                dotEl = $("dot");
+            if (!loaderEl || !statusEl || !labelEl || !dotEl) return;
+
+            let dotN = 0;
+            const dotTimer = setInterval(() => {
+                dotN = (dotN + 1) % 4;
+                dotEl.textContent = ".".repeat(dotN);
+            }, 400);
+
+            const setLabel = text => {
+                statusEl.classList.add("hide");
+                setTimeout(() => {
+                    labelEl.textContent = text;
+                    statusEl.classList.remove("hide");
+                }, 360);
+            };
+
+            function fetchFreshVersion() {
+                return new Promise(resolve => {
+                    const old = window.logData;
+                    window.logData = null;
+                    const s = document.createElement("script");
+                    let done = false;
+                    const finish = v => {
+                        if (done) return; done = true;
+                        clearTimeout(timer);
+                        window.logData = old;
+                        s.remove();
+                        resolve(v);
+                    };
+                    s.onload = () => {
+                        const v = window.logData && typeof window.logData.latestVersion === "string"
+                            ? window.logData.latestVersion
+                            : null;
+                        finish(v);
+                    };
+                    s.onerror = () => finish(null);
+                    s.src = "update-log.js?_=" + Date.now();
+                    document.head.appendChild(s);
+                    const timer = setTimeout(() => finish(null), 3500);
+                });
+            }
+
+            const cleanup = async () => {
+                try { sessionStorage.clear(); } catch (e) {}
+                try {
+                    if (typeof caches !== "undefined") {
+                        const ks = await caches.keys();
+                        await Promise.all(ks.map(k => caches.delete(k)));
+                    }
+                } catch (e) {}
+                await new Promise(r => setTimeout(r, 700));
+            };
+
+            const hide = () => {
+                clearInterval(dotTimer);
+                loaderEl.classList.add("hide");
+                setTimeout(() => { try { loaderEl.remove(); } catch (e) {} }, 500);
+            };
+
+            const boot = async () => {
+                const freshV = await fetchFreshVersion().catch(() => null);
+                setLabel("正在清理缓存");
+                await cleanup();
+                hide();
+                const toast = $("cacheToast");
+                if (toast) {
+                    toast.classList.add("show");
+                    setTimeout(() => toast.classList.remove("show"), 2500);
+                }
+            };
+
+            if (document.readyState !== "loading") boot();
+            else document.addEventListener("DOMContentLoaded", boot, { once: true });
         })();
     </script>
 </body>

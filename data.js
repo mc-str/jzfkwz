@@ -77,12 +77,12 @@ window.siteData = {
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://pic.j3.ink/进度条生成器_1.0.apk",
+        "url": "https://pic.j3.ink/进度条生成器_1.1.apk",
         "platform": "Android",
         "version": "v1.0",
         "size": "17.92 MB",
         "mode": "auto",
-        "filename": "进度条生成器_1.0.apk"
+        "filename": "进度条生成器_1.1.apk"
       }
     },
     {
