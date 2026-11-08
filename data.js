@@ -8,12 +8,12 @@ window.siteData = {
     {
       "name": "雪球T显生成器",
       "desc": "编辑后可一键生成静态雪球菜单显示部分。",
-      "icon": "https://pic.j3.ink/a1.png",
+      "icon": "https://jzfkc.pages.dev/a1.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://pic.j3.ink/雪球T显生成器_1.5.spk",
+        "url": "https://jzfkc.pages.dev/雪球T显生成器_1.5.apk",
         "platform": "Android",
         "version": "v1.5",
         "size": "6.31 MB",
@@ -24,12 +24,12 @@ window.siteData = {
     {
       "name": "动态菜单生成器",
       "desc": "一站式设计快捷编辑,自动生成全部动态雪球菜单指令",
-      "icon": "https://pic.j3.ink/a2.png",
+      "icon": "https://jzfkc.pages.dev/a2.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://pic.j3.ink/动态菜单生成器_1.0.apk",
+        "url": "https://jzfkc.pages.dev/动态菜单生成器_1.0.apk",
         "platform": "Android",
         "version": "v1.0",
         "size": "5.08 MB",
@@ -40,12 +40,12 @@ window.siteData = {
     {
       "name": "T显编译器",
       "desc": "可快捷编辑 titleraw/tellraw 同时也可拆分纠错 titleraw/tellraw 便于修改。",
-      "icon": "https://pic.j3.ink/a3.png",
+      "icon": "https://jzfkc.pages.dev/a3.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://pic.j3.ink/T显编译器_1.2.apk",
+        "url": "https://jzfkc.pages.dev/T显编译器_1.2.apk",
         "platform": "Android",
         "version": "v1.2",
         "size": "23.86 MB",
@@ -56,12 +56,12 @@ window.siteData = {
     {
       "name": "选区助手",
       "desc": "输入x,y,z一键计算dx,dy,dz，便捷添加目标选择器",
-      "icon": "https://pic.j3.ink/a4.png",
+      "icon": "https://jzfkc.pages.dev/a4.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://pic.j3.ink/选区助手_1.0.apk",
+        "url": "https://jzfkc.pages.dev/选区助手_1.0.apk",
         "platform": "Android",
         "version": "v1.0",
         "size": "3.82 MB",
@@ -72,17 +72,17 @@ window.siteData = {
     {
       "name": "进度条生成器",
       "desc": "自定义进度条的可视化工具，用于快速调整进度条样式，并实时预览最终效果。",
-      "icon": "https://pic.j3.ink/a5.png",
+      "icon": "https://jzfkc.pages.dev/a5.png",
       "badge": "official",
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://pic.j3.ink/进度条生成器_1.1.apk",
+        "url": "https://jzfkc.pages.dev/进度条生成器_1.0.apk",
         "platform": "Android",
         "version": "v1.0",
         "size": "17.92 MB",
         "mode": "auto",
-        "filename": "进度条生成器_1.1.apk"
+        "filename": "进度条生成器_1.0.apk"
       }
     },
     {
@@ -154,8 +154,7 @@ window.siteData = {
   "disclaimer": {
     "title": "软件用户许可及免责声明",
     "body": "下载或使用软件即视为同意本声明。请仔细阅读条款内容，了解软件使用规范及相关责任界定。",
-    "fileUrl": "http://lz.qaiu.top/parser?url=https://share.feijipan.com/s/cV5CW5MK",
-    "fileSize": "9 KB",
+    "pageUrl": "ds.html",
     "requireAcceptBeforeDownload": true,
     "acceptRememberDays": 30
   },

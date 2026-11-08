@@ -965,16 +965,19 @@
         .log-tag {
             display: inline-flex;
             align-items: center;
-            padding: 0.1rem 0.55rem;
-            font-size: 0.58rem;
-            border-radius: 10px;
-            background: rgba(120, 120, 130, 0.06);
+            padding: 0.05rem 0.4rem;
+            font-size: 0.52rem;
+            border-radius: 9px;
+            background: rgba(120, 120, 130, 0.04);
             color: var(--muted-2);
             letter-spacing: 0.02em;
             white-space: nowrap;
             line-height: 1.5;
-            -webkit-backdrop-filter: blur(8px);
-            backdrop-filter: blur(8px);
+            vertical-align: middle;
+            position: relative;
+            z-index: 1;
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
         }
         .log-tag--feature { background: rgba(74, 144, 226, 0.07); color: #4a90d9; }
         .log-tag--ux      { background: rgba(80, 180, 130, 0.07); color: #50b482; }
@@ -1902,7 +1905,7 @@
             <span class="modal-close disclaimer-modal-close">&times;</span>
             <h3 class="dm-title" id="dmTitle">软件用户许可及免责声明</h3>
             <p class="dm-body" id="dmBody"></p>
-            <button type="button" class="dm-file" id="dmFile"><i class="fas fa-file-download"></i><span id="dmFileText">下载声明文件</span></button>
+            <button type="button" class="dm-file" id="dmFile"><i class="fas fa-file-contract"></i><span id="dmFileText">查看完整协议</span></button>
             <label class="dm-check"><input type="checkbox" id="dmCheck" /><span>我已阅读并同意上述声明</span></label>
             <div class="dm-actions"><button type="button" class="dm-btn dm-btn-ghost" id="dmCancel">取消</button><button type="button" class="dm-btn dm-btn-primary" id="dmOk" disabled>同意并继续</button></div>
         </div>
@@ -1943,7 +1946,7 @@
         function renderDisclaimer(d) {
             const s = d.disclaimer;
             if (!s) return;
-            $("dc").innerHTML = `<div class="disclaimer"><p class="disclaimer-text">下载或使用本站软件即视为同意<a href="${s.fileUrl}" onclick="return openDisclaimer(event);">《${s.title}》</a></p><span class="disclaimer-size">${s.fileSize}</span></div>`;
+            $("dc").innerHTML = `<div class="disclaimer"><p class="disclaimer-text">下载或使用本站软件即视为同意<a href="${s.pageUrl}" target="_blank" rel="noopener noreferrer">《${s.title}》</a></p></div>`;
         }
 
         function renderJumpCards(list) {
@@ -2174,21 +2177,22 @@
             ok.onclick = () => { acceptDisclaimer(); const fn = pending;
                 close(); if (fn) setTimeout(fn, 260); };
             $("dmCancel").onclick = close;
-            $("dmFile").onclick = () => { const d = disclaimerCfg(); if (!d.fileUrl) return;
-                Downloader.start(-1, { name: d.title || "免责声明", download: { url: d.fileUrl, filename: (d.title ||
-                            "disclaimer") + ".pdf", mode: "auto" } }); };
+            $("dmFile").onclick = () => { const d = disclaimerCfg(); if (!d.pageUrl) return;
+                window.open(d.pageUrl, "_blank", "noopener"); };
             window.showDisclaimerModal = function(cb) {
                 const d = disclaimerCfg();
                 $("dmTitle").textContent = d.title || "免责声明";
                 $("dmBody").textContent = d.body || "";
-                $("dmFileText").textContent = "下载《" + (d.title || "声明") + "》· " + (d.fileSize || "");
+                $("dmFileText").textContent = "查看完整协议《" + (d.title || "声明") + "》";
                 check.checked = false;
                 ok.disabled = true;
                 pending = cb || null;
                 openModal(m);
             };
             window.openDisclaimer = function(e) { if (e) e.preventDefault();
-                window.showDisclaimerModal(null); return false; };
+                const d = disclaimerCfg();
+                if (d.pageUrl) window.open(d.pageUrl, "_blank", "noopener");
+                return false; };
         })();
         const Downloader = (function() {
             const dock = $("petDock"),
@@ -2753,10 +2757,52 @@
                 setTimeout(() => { try { loaderEl.remove(); } catch (e) {} }, 500);
             };
 
+            const RESOURCE_FALLBACK = 500;
+            const RESOURCE_MAX_WAIT = 8000;
+
+            function probeImage(url) {
+                return new Promise(resolve => {
+                    const im = new Image();
+                    let settled = false;
+                    const fin = ok => { if (settled) return; settled = true; resolve(ok); };
+                    im.onload = () => fin(true);
+                    im.onerror = () => fin(false);
+                    im.src = url;
+                });
+            }
+
+            function faReady() {
+                if (!document.fonts || !document.fonts.load) {
+                    const lk = document.querySelector('link[rel="stylesheet"][href*="font-awesome"]');
+                    return Promise.resolve(!!lk && !!lk.sheet);
+                }
+                // 码位需落在 FA unicode-range 内才会真实触发字体下载；空数组表示字体未在文档中定义，视为失败
+                return Promise.all([
+                    document.fonts.load('900 16px "Font Awesome 6 Free"', "\uf1da"),
+                    document.fonts.load('400 16px "Font Awesome 6 Brands"', "\uf09b")
+                ]).then(fs => fs.every(f => f.length > 0)).catch(() => false);
+            }
+
+            // 返回 null 表示无法检测；否则 resolve 后再进入界面
+            function detectResources() {
+                const products = (window.siteData && window.siteData.products) || [];
+                const urls = products.map(p => p && p.icon).filter(u => typeof u === "string" && u);
+                const faLink = document.querySelector('link[rel="stylesheet"][href*="font-awesome"]');
+                if (!urls.length && !faLink) return null;
+                const tasks = urls.map(probeImage);
+                if (faLink) tasks.push(faReady());
+                const cap = new Promise(r => setTimeout(() => r(null), RESOURCE_MAX_WAIT));
+                return Promise.race([Promise.all(tasks).then(() => true), cap]);
+            }
+
             const boot = async () => {
                 const freshV = await fetchFreshVersion().catch(() => null);
                 setLabel("正在清理缓存");
                 await cleanup();
+                setLabel("正在加载资源");
+                const probe = detectResources();
+                if (probe === null) await new Promise(r => setTimeout(r, RESOURCE_FALLBACK));
+                else await probe;
                 hide();
                 const toast = $("cacheToast");
                 if (toast) {

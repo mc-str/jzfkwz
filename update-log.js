@@ -1,6 +1,14 @@
 window.logData = {
-  "latestVersion": "v2.1.0",
+  "latestVersion": "v2.1.1",
   "logs": [
+    {
+      "version": "v2.1.1",
+      "date": "2026-11-08",
+      "content": [
+        { "text": "将《软件用户许可即免责声明》改为本地预览", "tag": "补丁更新" },
+        { "text": "加载动画新增资源加载检测", "tag": "功能更新" }
+      ]
+    },
     {
       "version": "v2.1.0",
       "date": "2026-11-01",

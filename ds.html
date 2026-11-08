@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软件用户许可及免责协议</title>
+<style>
+:root {
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-muted: #8a8a8a;
+  --line: #e5e5e5;
+  --bg: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Helvetica Neue", Helvetica, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── 右上角返回 ── */
+.back {
+  position: fixed;
+  top: 28px;
+  right: 32px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+}
+
+.back:hover { color: var(--text-primary); }
+
+/* ── 顶部 ── */
+.hero {
+  padding: 100px 24px 0;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+}
+
+.hero .meta {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── 正文区 ── */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px 56px;
+}
+
+section {
+  padding: 40px 0;
+  border-top: 1px solid var(--line);
+}
+
+h2 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+
+h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 32px 0 10px;
+}
+
+h3:first-of-type { margin-top: 0; }
+
+p {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+ul, ol {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+li {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.note {
+  margin: 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.note p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── 底部（收窄） ── */
+footer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 24px 40px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── 响应式 ── */
+@media (max-width: 640px) {
+  .back { top: 20px; right: 20px; }
+  .hero { padding: 72px 20px 0; }
+  .hero .meta { margin-top: 16px; }
+  main { padding: 0 20px 44px; }
+  section { padding: 32px 0; }
+  footer { padding: 16px 20px 32px; }
+  .hero h1 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="https://jzfk.indevs.in/">返回</a>
+
+<div class="hero">
+  <h1>软件用户许可及免责协议</h1>
+  <div class="meta">GPLv3 开源协议</div>
+</div>
+
+<main>
+
+  <section>
+    <h2>一 · 概述</h2>
+    <p>本《软件用户许可及免责协议》（以下简称"本协议"）是用户与「矩阵方块制作」（以下简称"我方"）之间，关于用户下载、安装、运行、使用"由矩阵方块制作的任意软件"（以下简称"本软件"）所订立的合法、有效的法律协议。</p>
+    <p>请用户在下载、安装、使用本软件前<strong>认真阅读、充分理解本协议全部内容</strong>。您下载、安装、运行、使用本软件的全部行为即表示您<strong>自愿、完全、无条件同意本协议全部条款</strong>，并承诺遵守所有约定。若您不同意任意条款，<strong>请立即停止下载、安装及使用本软件</strong>。</p>
+  </section>
+
+  <section>
+    <h2>二 · 相关条款的解释</h2>
+    <h3>2.1 本条款 / 本协议</h3>
+    <p>指本用户协议全文、补充说明、附则、公告及我方未来合法发布的全部修订版本，<strong>同时遵循 GNU General Public License Version 3（GPLv3 开源协议）约束</strong>。</p>
+    <h3>2.2 我们 / 我方</h3>
+    <p>指开发、创作、运营、维护本软件的制作人。</p>
+    <h3>2.3 您 / 用户</h3>
+    <p>指所有下载、安装、运行、使用、传播、体验本软件的自然人、法人及其他合法使用者。</p>
+    <h3>2.4 本软件</h3>
+    <p>指矩阵方块独立制作、发布的全部软件程序，包含客户端、程序本体、配置文件、资源文件、版本更新、衍生发布版本、配套说明文档等全部相关内容。</p>
+    <h3>2.5 GPLv3</h3>
+    <p>GNU 通用公共许可证第三版，所有二次修改、分发行为必须严格遵照此开源协议执行。</p>
+    <h3>2.6 第三方平台</h3>
+    <p>包含全部网络平台，其中涵盖短视频平台、长视频平台、图文网站、社区论坛、社交软件、网盘渠道等一切公开展示传播的线上场景。</p>
+    <h3>2.7 权属说明</h3>
+    <p><strong>本软件整体设计思路、架构方案、功能规划、产品逻辑由矩阵方块原创设计</strong>；程序代码文本由人工智能工具辅助生成。</p>
+  </section>
+
+  <section>
+    <h2>三 · 许可授权</h2>
+    <h3>3.1 许可授予</h3>
+    <p>在用户完全遵守本协议全部条款与 GPLv3 开源协议的前提下，我方授予用户<strong>有限、非排他、可二次分发、可自主修改的使用权利</strong>：用户可在个人自用设备上免费下载、安装、运行本软件；允许依照 GPLv3 协议规则修改源代码，同时允许非商业与商业场景下二次复制分发，分发过程必须永久保留原作者署名（矩阵方块），同时必须标注：<strong>产品设计方案由矩阵方块原创，代码由AI辅助生成</strong>。</p>
+    <h3>3.2 开源修改规则（遵循 GPLv3）</h3>
+    <ol>
+      <li>任何人对本软件源代码进行修改、改写、扩充之后，进行公开发布、二次分发时，<strong>必须同步完整公开修改后的全部源代码</strong>；</li>
+      <li>衍生程序同样继承 GPLv3 协议，<strong>不得闭源打包售卖</strong>，衍生作品许可条款不允许降级；</li>
+      <li>修改后的程序必须明确标注修改说明，<strong>原始产品设计版权归属矩阵方块不可删除</strong>。</li>
+    </ol>
+    <h3>3.3 二次分发硬性约束</h3>
+    <ol>
+      <li>所有二次分发版本，<strong>必须完整保留"矩阵方块"原作者署名、版权文字标识，不得删除、涂改、遮盖</strong>；同时固定标注：本软件功能设计方案由矩阵方块原创，程序代码由人工智能辅助生成。</li>
+      <li>二次分发的软件，宣传内容仅限和矩阵方块同类型产品范畴，<strong>禁止夹带无关软件、项目、服务进行捆绑宣传推广</strong>；</li>
+      <li>如果在第三方平台（包含各类视频平台、自媒体频道）进行展示、录制视频讲解、转载、二次宣传分发，<strong>视频画面、文案简介位置必须显著清晰标注：本项目源自矩阵方块</strong>，并且在视频简介区附上官方来源入口链接；</li>
+      <li><strong>不允许利用本软件包装成自有原创设计作品对外宣称，禁止冒用作者身份，禁止宣称代码完全人工编写</strong>。</li>
+    </ol>
+    <h3>3.4 使用限制</h3>
+    <p>用户明确承诺，不得擅自实施以下行为：</p>
+    <ol>
+      <li><strong>未经 GPLv3 规则约束进行闭源修改、打包售卖</strong>；</li>
+      <li>对本软件进行反向工程、反编译、反汇编之后闭源商用（GPLv3 允许合法逆向学习，但<strong>分发必须开源</strong>）；</li>
+      <li><strong>删除、修改、遮盖、替换软件内的版权标识、作者署名、专属水印、版本说明</strong>；</li>
+      <li>将二次分发版本用于违规导流，在视频平台捆绑推广其他无关产品。</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>四 · 软件安全保障声明</h2>
+    <p>我方郑重公开承诺，<strong>本软件为纯绿色安全软件</strong>，对所有用户公开安全保障：</p>
+    <h3>4.1 无病毒、无木马、无恶意程序</h3>
+    <p>本软件全部代码由AI生成后经我方人工审核、自主编译、人工校验，<strong>不含任何病毒、木马、蠕虫、恶意脚本、挖矿程序、捆绑程序、静默植入程序</strong>，不会对用户设备造成损坏、卡顿、占用资源、后台偷跑行为。</p>
+    <h3>4.2 无后台窃取、无隐私盗取</h3>
+    <p><strong>本软件不会私自读取、收集、上传、泄露、备份用户任何个人隐私数据</strong>，包括但不限于：通讯录、相册、文件、聊天记录、账号密码、定位信息、设备隐私数据。软件仅运行自身功能所需基础程序，无任何隐私窃取模块、无静默上传模块、无后台监听模块。</p>
+    <h3>4.3 无暗链、无后门、无远程控制</h3>
+    <p><strong>本软件不存在任何程序后门、远程控制接口、隐藏通道、暗链跳转、静默更新、强制推送等恶意行为</strong>，程序运行全程透明、可校验、可自查。</p>
+    <h3>4.4 安全合规、无毒无污染</h3>
+    <p>本软件发布前均经过人工代码审计、杀毒校验、运行测试，<strong>无流氓行为、无强制安装、无捆绑软件、无广告弹窗、无私自扣费、无诱导付费</strong>。</p>
+    <h3>4.5 设备安全保障</h3>
+    <p>正常合规使用本软件<strong>不会导致用户设备中毒、文件丢失、系统损坏、账号风险</strong>，软件运行不篡改系统配置、不修改系统权限、不劫持网络流量。</p>
+  </section>
+
+  <section>
+    <h2>五 · 用户行为规范</h2>
+    <h3>5.1 合规使用</h3>
+    <p>用户承诺使用本软件全程遵守《中华人民共和国网络安全法》《中华人民共和国著作权法》《个人信息保护法》及国家相关法律法规，遵守社会公德、公序良俗，同时严格遵照 GPLv3 开源协议履行义务。</p>
+    <h3>5.2 禁止用途</h3>
+    <p>用户不得将本软件用于：</p>
+    <ol>
+      <li>任何违法违规、侵权、造谣、诈骗、破坏他人权益的行为；</li>
+      <li>网络攻击、渗透测试、批量扫描、恶意入侵、破坏计算机系统行为；</li>
+      <li>制作、传播、扩散恶意程序、破解工具、侵权资源；</li>
+      <li>在视频平台等渠道恶意剪辑、歪曲内容，干扰、破坏、滥用本软件运行逻辑。</li>
+    </ol>
+    <h3>5.3 违规责任</h3>
+    <p>若用户违规使用本软件、违背 GPLv3 协议约定、抹去原作者署名、在视频平台违规捆绑宣传无关内容，造成一切后果，<strong>全部由用户自行承担法律责任</strong>，我方有权追究著作权相关侵权责任。</p>
+  </section>
+
+  <section>
+    <h2>六 · 隐私保护条款</h2>
+    <h3>6.1</h3>
+    <p><strong>本软件不强制获取用户隐私权限，不索要多余设备权限，不私自收集用户信息</strong>。</p>
+    <h3>6.2</h3>
+    <p>若软件极少数功能需要基础网络权限，仅用于正常功能展示，<strong>绝不用于数据采集与泄露</strong>。</p>
+    <h3>6.3</h3>
+    <p>我方严格遵守个人信息保护相关法律，<strong>绝不会倒卖、泄露、交易任何用户信息</strong>。</p>
+  </section>
+
+  <section>
+    <h2>七 · 免责声明</h2>
+    <h3>7.1 风险自负</h3>
+    <p>用户确认：仅在合法合规范围内自行使用本软件。我方已全程对AI生成代码进行人工审核，保障软件本体安全；因用户个人恶意修改、第三方破解版本、用户违规操作、用户自行安装其他附带程序导致的设备问题、数据损失、账号风险，<strong>均由用户自行承担</strong>。</p>
+    <h3>7.2 第三方责任</h3>
+    <p>本软件不含任何第三方恶意植入，因用户自行跳转第三方网站、第三方软件、第三方资源产生的风险与纠纷，<strong>我方不承担任何责任</strong>。</p>
+    <h3>7.3 衍生版本免责</h3>
+    <p><strong>仅我方官方原版软件具备安全保障</strong>，用户依照 GPLv3 修改后的衍生程序，其安全问题由修改者全权负责；非合规分发的盗版版本均与我方无关，一切风险由使用者自行承担。</p>
+  </section>
+
+  <section>
+    <h2>八 · 知识产权与开源规则</h2>
+    <h3>8.1</h3>
+    <p>本软件整体产品架构、功能设计方案、创意逻辑为矩阵方块独立原创；程序源代码由人工智能生成，项目整体采用 GPLv3 开源协议发行。</p>
+    <h3>8.2</h3>
+    <p>所有二次修改、再分发、视频公开展示行为必须完全遵循 GPLv3：<strong>衍生作品必须开源、保留原作者署名、标注"设计由矩阵方块原创"、协议延续不变</strong>；违反开源条款以及权属标注要求，我方有权依法追究侵权者全部法律责任。</p>
+  </section>
+
+  <section>
+    <h2>九 · 条款修改与更新</h2>
+    <h3>9.1</h3>
+    <p>我方有权根据法律法规及 GPLv3 协议要求，合理修订、更新本协议条款。</p>
+    <h3>9.2</h3>
+    <p>协议更新后将通过软件公告、发布页面、官方渠道公示，<strong>公示后即刻生效</strong>。</p>
+    <h3>9.3</h3>
+    <p>用户继续使用软件即代表默认接受最新协议条款。</p>
+  </section>
+
+  <section>
+    <h2>十 · 协议生效与终止</h2>
+    <h3>10.1</h3>
+    <p><strong>本协议自用户首次下载、安装、运行、使用本软件之日起自动生效</strong>。</p>
+    <h3>10.2</h3>
+    <p>用户卸载、停止使用软件，不影响协议生效期间已产生的合法权责。</p>
+    <h3>10.3</h3>
+    <p>用户违背 GPLv3 协议、抹除原作者署名、隐瞒创作说明、在视频平台等渠道违规宣传分发的，<strong>我方有权终止使用权限并发起维权</strong>。</p>
+  </section>
+
+  <div class="note">
+    <p>矩阵方块 保留产品设计原创著作权</p>
+  </div>
+
+</main>
+
+<footer>
+  <span>© 矩阵方块</span>
+</footer>
+
+</body>
+</html>
