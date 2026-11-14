@@ -77,7 +77,7 @@ window.siteData = {
       "badgeText": "正式版",
       "download": {
         "enabled": true,
-        "url": "https://jzfkc.pages.dev/进度条生成器_1.4.apk",
+        "url": "https://jzfkc.pages.dev/进度条生成器_1.1.apk",
         "platform": "Android",
         "version": "v1.1",
         "size": "20.39 MB",
